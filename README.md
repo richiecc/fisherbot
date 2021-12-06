@@ -7,7 +7,7 @@ Below are for understanding how the python scripts work. You're probably more in
 ## Requirements
 ### Generation of SQLite3 `.db` file and `.sql` scripts 
 * [Python 3.9.9](https://www.python.org/downloads/release/python-399/)
-* [sqlite3 for your OS](https://sqlite.org/index.html)
+* [sqlite for your OS](https://sqlite.org/index.html)
 * [sqlite3 for python](https://docs.python.org/3/library/sqlite3.html)
 
 ### Starting your own Discord bot with the bot script
