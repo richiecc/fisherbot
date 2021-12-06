@@ -25,10 +25,6 @@ timestamp = str(round(time.time() * 1000))
 # ------------------------ configurables ------------------------
 # ---------------------------------------------------------------
 
-# set this location to wherever you want it
-# or keep it default to have the database in ./fisherbot.db
-database_file_location = cwd + "/fisherbot.db"
-
 # drops tables if they exist and commits changes to the database
 drop = False
 
@@ -41,11 +37,14 @@ stdout = False
 toFile = True
 
 # overwrites tables that store data IF AND ONLY IF drop is also true.
-# YOU CAN USE erase = true AND BE PERFECTLY FINE IF drop = false
+# YOU CAN USE include_user_data_tables = true AND BE PERFECTLY FINE IF drop = false
 # SINCE IT WILL GENERATE SQL FOR TABLES THAT STORE DATA
-erase = True
+include_user_data_tables = True
 
 
+# keep it default please
+if drop or include_user_data_tables:
+    database_file_location = cwd + "/fisherbot.db"
 # ---------------------------------------------------------------
 # ------------------------- huge tables -------------------------
 # ---------------------------------------------------------------
@@ -202,7 +201,7 @@ def catchable_gen(drop=False, stdout=False, toFile=False):
         # to a file, either catchables.sql or catchables-TIMESTAMP.sql
         filename = "catchables.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "catchables-" + timestamp + ".sql"
+            filename = timestamp + "-catchables" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
@@ -240,7 +239,7 @@ def areas_gen(drop=False, stdout=False, toFile=False):
         # to a file, either areas.sql or areas-TIMESTAMP.sql
         filename = "areas.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "areas-" + timestamp + ".sql"
+            filename = timestamp + "-areas" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
@@ -282,7 +281,7 @@ def items_gen(drop=False, stdout=False, toFile=False):
         # to a file, either items.sql or items-TIMESTAMP.sql
         filename = "items.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "items-" + timestamp + ".sql"
+            filename = timestamp + "-items" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
@@ -313,7 +312,7 @@ def inventory_gen(drop=False, stdout=False, toFile=False):
         # to a file, either inventory.sql or inventory-TIMESTAMP.sql
         filename = "inventory.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "inventory-" + timestamp + ".sql"
+            filename = timestamp + "-inventory" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
@@ -344,7 +343,7 @@ def basket_gen(drop=False, stdout=False, toFile=False):
         # to a file, either basket.sql or basket-TIMESTAMP.sql
         filename = "basket.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "basket-" + timestamp + ".sql"
+            filename = timestamp + "-basket" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
@@ -377,7 +376,7 @@ def users_gen(drop=False, stdout=False, toFile=False):
         # to a file, either users.sql or users-TIMESTAMP.sql
         filename = "users.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "users-" + timestamp + ".sql"
+            filename = timestamp + "-users" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
@@ -415,12 +414,12 @@ def shop_gen(drop=False, stdout=False, toFile=False):
         # to a file, either shop.sql or shop-TIMESTAMP.sql
         filename = "shop.sql"
         if(os.path.exists("./sql/" + filename)):
-            filename = "shop-" + timestamp + ".sql"
+            filename = timestamp + "-shop" + ".sql"
         f = open(cwd + "/sql/" + filename, "w")
         f.write(toOut)
 
 
-def exec(drop, stdout, toFile, erase):
+def exec(drop, stdout, toFile, include_user_data_tables):
     # make sure the dir exists if you do toFile
     if toFile:
         try:
@@ -429,27 +428,27 @@ def exec(drop, stdout, toFile, erase):
             pass
     # databases that store data are under a check so I
     # don't accidentally overwrite any user data unless necessary
-    if erase:
+    if include_user_data_tables:
         inventory_gen(drop=drop, stdout=stdout, toFile=toFile)
         if not stdout:
             if drop:
-                print("Erased inventory data.")
+                print("Reset inventory data.")
             else:
                 print("Generated inventory file.")
         basket_gen(drop=drop, stdout=stdout, toFile=toFile)
         if not stdout:
             if drop:
-                print("Erased basket data.")
+                print("Reset basket data.")
             else:
                 print("Generated basket file.")
         users_gen(drop=drop, stdout=stdout, toFile=toFile)
         if not stdout:
             if drop:
-                print("Erased user data.")
+                print("Reset user data.")
             else:
                 print("Generated user file.")
 
-    # rest of the tables are fine to erase and re-generate
+    # rest of the tables are fine to reset
     catchable_gen(drop=drop, stdout=stdout, toFile=toFile)
     if not stdout:
         if drop:
@@ -481,4 +480,4 @@ def exec(drop, stdout, toFile, erase):
 db = sqlite3.connect(database_file_location)
 # execute script.
 # can call this from somewhere else if you really need, that's why i made it like this.
-exec(drop, stdout, toFile, erase)
+exec(drop, stdout, toFile, include_user_data_tables)
