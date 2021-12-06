@@ -16,6 +16,22 @@ Below are for understanding how the python scripts work. You're probably more in
   * Create bot user
   * Get bot user token
   * Add bot user to server
+
+## Using the bot in a server
+ * `f` to fish
+ * `inv` to access your inventory
+ * `shop` for the shop help menu
+   * `shop <rarity>` to view sell prices of fish for a rarity
+ * `sell <amount> <fish>` to sell fish
+   * `sell 1 Salmon` <--- CASE SENSITIVE FISH NAME!
+ * `rods`
+   * not implemented
+ * `buy rod <rod>`
+   * not implemented
+ * `area` to see your current area
+   * `area <num>` to set your area
+
+
 ## Generating SQL scripts and database with `gen_sql.py`
 So, there's a script called `gen_sql.py` in this repo. If you want the SQL DROP/CREATE for the database, run it. Oh, before you run it...
 ### Configuration
