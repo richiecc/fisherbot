@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS Users;
+CREATE TABLE IF NOT EXISTS Users (
+    user_id NUMBER PRIMARY_KEY NOT NULL,
+    xp NUMBER NOT NULL,
+    gold NUMBER NOT NULL,
+    current_area NUMBER NOT NULL,
+    fish_caught NUMBER NOT NULL);
