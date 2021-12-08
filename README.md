@@ -31,6 +31,9 @@ Below are for understanding how the python scripts work. You're probably more in
  * `area` to see your current area
    * `area <num>` to set your area
 
+## borked. working on it later.
+
+<del>
 
 ## Generating SQL scripts and database with `gen_sql.py`
 So, there's a script called `gen_sql.py` in this repo. If you want the SQL DROP/CREATE for the database, run it. Oh, before you run it...
@@ -52,6 +55,8 @@ Look for the section *configurables* near the top of the script
 #### include_user_data_tables
  * set **True** to include *USER DATA CONTAINING TABLES* in the script
  * set **False** to avoid *USER DATA CONTAINING TABLES* in the script
+
+</del>
 
 ## Understanding `dbf.py`
 `dbf.py` contains all of the database interation functions used in `bot.py`. You can write your own program using these functions and basically piggyback on this database if you'd like. Keep in mind nothing is completely finished on the front-end side. <br> Basically: 
