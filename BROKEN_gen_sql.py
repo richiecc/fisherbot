@@ -30,11 +30,11 @@ drop = False
 
 # prints properly formatted SQL script to stdout for command line use, if necessary
 # this will remove the debug prints
-stdout = False
+stdout = True
 
 # outputs properly formatted SQL scripts to files including table drop/create
 # (will add option later for single file output)
-toFile = True
+toFile = False
 
 # overwrites tables that store data IF AND ONLY IF drop is also true.
 # YOU CAN USE include_user_data_tables = true AND BE PERFECTLY FINE IF drop = false
