@@ -1,5 +1,0 @@
-DROP TABLE IF EXISTS Inventory;
-CREATE TABLE IF NOT EXISTS Inventory (
-    user_id NUMBER NOT NULL,
-    item_id NUMBER NOT NULL,
-    amount NUMBER NOT NULL);
