@@ -71,7 +71,7 @@ def getCurrentArea(user_id):
     if debug:
         print("getting current area", end=": ")
     result = db.execute(
-        "select current_area from Users where user_id= ?;", (str(user_id),))
+        "select area_id from Users where user_id= ?;", (str(user_id),))
     result = result.fetchall()
     if result == []:
         return None
@@ -224,12 +224,12 @@ def getGold(user_id):
 
 
 def rollCatchable(user_id):
-    '''rolls a catchable item based on user's `current_area`. it checks the user's inventory for
+    '''rolls a catchable item based on user's `area_id`. it checks the user's inventory for
     the proper fishing rod if they are in an area that requires one. if everything checks out,
     the function returns the `catchable_id` of the catchable rolled. if the check fails, this
     function returns `None`.'''
     try:
-        current_area = int(getCurrentArea(user_id))
+        area_id = int(getCurrentArea(user_id))
     except:
         if debug:
             print("exception when getting current area integer")
@@ -237,23 +237,23 @@ def rollCatchable(user_id):
     if doesUserHaveItem(user_id, getItemIdByName("Omni Rod")):
         pass
     else:
-        if current_area == 0 and not doesUserHaveItem(user_id, getItemIdByName("Basic Rod")):
+        if area_id == 0 and not doesUserHaveItem(user_id, getItemIdByName("Basic Rod")):
             if debug:
                 print("no basic")
             return "no_rod"
-        elif current_area == 1 and not doesUserHaveItem(user_id, getItemIdByName("Glow Rod")):
+        elif area_id == 1 and not doesUserHaveItem(user_id, getItemIdByName("Glow Rod")):
             if debug:
                 print("no glow")
             return "no_rod"
-        elif current_area == 2 and not doesUserHaveItem(user_id, getItemIdByName("Lava Rod")):
+        elif area_id == 2 and not doesUserHaveItem(user_id, getItemIdByName("Lava Rod")):
             if debug:
                 print("no lava")
             return "no_rod"
-        elif current_area == 3 and not doesUserHaveItem(user_id, getItemIdByName("Heavy Rod")):
+        elif area_id == 3 and not doesUserHaveItem(user_id, getItemIdByName("Heavy Rod")):
             if debug:
                 print("no heavy")
             return "no_rod"
-        elif current_area == 4 and not doesUserHaveItem(user_id, getItemIdByName("Omni Rod")):
+        elif area_id == 4 and not doesUserHaveItem(user_id, getItemIdByName("Omni Rod")):
             if debug:
                 print("no omni")
             return "no_rod"
@@ -295,7 +295,7 @@ def rollCatchable(user_id):
         if debug:
             print("rarity ({0}): ".format(rarity_integer), end=": ")
 
-        if current_area == 0:
+        if area_id == 0:
             #   ----- The Ocean -----
             #   | common    | 1000  |
             #   ---------------------
@@ -304,7 +304,7 @@ def rollCatchable(user_id):
             fish = getFishFromAreaAndRarity(0, "Common")
             fish_id = fish[rand.randint(0, len(fish)-1)][0]
             return fish_id
-        elif current_area == 1:
+        elif area_id == 1:
             #   ----- Deep Cave -----
             #   | common    |  930  |
             #   | uncommon  |   70  |
@@ -322,7 +322,7 @@ def rollCatchable(user_id):
             else:
                 print("broke at area 1")
                 return None
-        elif current_area == 2:
+        elif area_id == 2:
             #   ----- Lava Pool -----
             #   | common    |  905  |
             #   | uncommon  |   70  |
@@ -349,7 +349,7 @@ def rollCatchable(user_id):
             else:
                 print("broke at area 2")
                 return None
-        elif current_area == 3:
+        elif area_id == 3:
             #   ---- Outer Space ----
             #   | common    |  900  |
             #   | uncommon  |   70  |
@@ -400,7 +400,7 @@ def getCatchableIdByName(catchable_name):
 
 
 def changeArea(user_id, area_id):
-    db.execute("update Users set current_area = ? where user_id = ?;",
+    db.execute("update Users set area_id = ? where user_id = ?;",
                (str(area_id), str(user_id)))
     db.commit()
     if debug:
