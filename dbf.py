@@ -272,7 +272,7 @@ def rollCatchable(user_id):
     if 900 <= category_integer <= 1000:
         if debug:
             print("junk")
-        junk_id = junk[rand.randint(0, len(junk))][0]
+        junk_id = junk[rand.randint(0, len(junk)-1)][0]
         return junk_id
     # [900, 1]
     elif 1 <= category_integer < 900:
@@ -360,7 +360,7 @@ def rollCatchable(user_id):
                 if debug:
                     print("Common")
                 fish = getFishFromAreaAndRarity(3, "Common")
-                fish_id = fish[rand.randint(0, len(fish))][0]
+                fish_id = fish[rand.randint(0, len(fish)-1)][0]
                 return fish_id
             elif 30 < rarity_integer <= 100:
                 if debug:
