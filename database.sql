@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS Inventory (
     user_id INT NOT NULL,
     item_id INT NOT NULL,
     amount INT NOT NULL,
-    PRIMARY KEY (item_id),
     CONSTRAINT FK_Inventory_Users FOREIGN KEY (user_id)
     REFERENCES Users (user_id));
 
