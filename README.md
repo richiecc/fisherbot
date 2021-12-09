@@ -24,6 +24,7 @@ Below are for understanding how the python scripts work. You're probably more in
    * `shop <rarity>` to view sell prices of fish for a rarity
  * `sell <amount> <fish>` to sell fish
    * `sell 1 Salmon` <--- CASE SENSITIVE FISH NAME!
+ * `xp` to check total xp
  * `rods`
    * not implemented
  * `buy rod <rod>`
