@@ -2,7 +2,10 @@
 
 If you want to use this bot, head over to this [Discord server I made for it](https://discord.gg/CkbHNMkuym). It's only me and the bot there at the moment. I think you can join with a guest account in your browser (no account creation required) so give it a shot. I'll try to leave the bot running for as long as I can.
 
-Below are for understanding how the python scripts work. You're probably more interested in how the database is created... Click the file `DATABASE.md` for that. Oh, also, `PROPOSAL.md` since I need a grade for that, I think.
+Below are for understanding how the python scripts work. You're probably more interested in project deliverables. `PROPOSAL.md` for that.
+<br>
+<br>
+Oh, also, `REPORT.md` since I need a grade for that.
 
 ## Requirements
 ### Generation of SQLite3 `.db` file and `.sql` scripts 
