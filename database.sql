@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS Shop (
     CONSTRAINT FK_Shop_Catchable FOREIGN KEY (catchable_id)
     REFERENCES Catchable(catchable_id));
 
+-- STATIC DATA
 INSERT INTO Catchable
 VALUES
     (36, "Pogfish", 4, 12500, "Unique", "fish"),
