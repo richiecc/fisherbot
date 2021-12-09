@@ -10,8 +10,9 @@ main bot script.
 careful here, it's the front-end of the true back-end 
 '''
 
-
-token = "BOT TOKEN GOES HERE, BUT YA KNOW, WHO IN THE WORLD WOULD GIVE OUT THEIR TOKEN? LOL"
+token = [
+    "BOT TOKEN GOES HERE, BUT YA KNOW, WHO IN THE WORLD WOULD GIVE OUT THEIR TOKEN? LOL"
+]
 
 debug = True
 cwd = os.getcwd()
@@ -121,10 +122,10 @@ async def on_message(message):
             print("user", user_id, "is fishing")
         catchable_id = dbf.rollCatchable(user_id)
         if catchable_id == None:
-            await message.channel.send("Invalid roll! (contact cook#7167 please)")
+            await message.channel.send("⛔ Invalid roll! (contact cook#7167 please)")
             return
         elif catchable_id == "no_rod":
-            await message.channel.send("You don't have the correct rod to fish in this area!")
+            await message.channel.send("⛔ You don't have the correct rod to fish in this area!")
             return
         else:
             return_code = dbf.giveUserCatchable(user_id, catchable_id, 1)
@@ -266,7 +267,7 @@ async def on_message(message):
             try:
                 amount = int(args[1])
             except:
-                await message.channel.send("Improper command formatting. Type `sell` for help.")
+                await message.channel.send(" ⛔Improper command formatting. Type `sell` for help.")
                 return
             fish = args[2]
             fish_id = dbf.getCatchableIdByName(fish)
@@ -275,7 +276,7 @@ async def on_message(message):
                     "You don't have {0}".format(fish))
                 return
             elif amount <= 0:
-                await message.channel.send("You can't sell {0} fish!?!?".format(amount))
+                await message.channel.send("⛔ You can't sell {0} fish!?!?".format(amount))
                 return
             else:
                 emoji_name = str(fish).replace(" ", "").replace(
@@ -287,28 +288,28 @@ async def on_message(message):
 
                 dbf.giveUserCatchable(user_id, fish_id, (amount * -1))
                 dbf.giveGold(user_id, final_gold_value)
-                await message.channel.send("{0} sold {1} {2} for a total of {3} {4}".format(message.author.name, amount, emojistr, gold_emoji, final_gold_value))
+                await message.channel.send("✅ {0} sold {1} {2} for a total of {3} {4}".format(message.author.name, amount, emojistr, gold_emoji, final_gold_value))
 
     if message.content.startswith("area"):
         current_area = int(dbf.getCurrentArea(user_id))
         if message.content == ("area 1") and current_area != 0:
             dbf.changeArea(user_id, 0)
-            await message.channel.send("{0}, you are now in area 1: {1}".format(message.author.name, dbf.getAreaName(0)))
+            await message.channel.send("✅ {0}, you are now in area 1: {1}".format(message.author.name, dbf.getAreaName(0)))
             return
         if message.content == ("area 2") and current_area != 1:
-            await message.channel.send("{0}, you are now in area 2: {1}".format(message.author.name, dbf.getAreaName(1)))
+            await message.channel.send("✅ {0}, you are now in area 2: {1}".format(message.author.name, dbf.getAreaName(1)))
             dbf.changeArea(user_id, 1)
             return
         if message.content == ("area 3") and current_area != 2:
-            await message.channel.send("{0}, you are now in area 3: {1}".format(message.author.name, dbf.getAreaName(2)))
+            await message.channel.send("✅ {0}, you are now in area 3: {1}".format(message.author.name, dbf.getAreaName(2)))
             dbf.changeArea(user_id, 2)
             return
         if message.content == ("area 4") and current_area != 3:
-            await message.channel.send("{0}, you are now in area 4: {1}".format(message.author.name, dbf.getAreaName(3)))
+            await message.channel.send("✅ {0}, you are now in area 4: {1}".format(message.author.name, dbf.getAreaName(3)))
             dbf.changeArea(user_id, 3)
             return
         if message.content == ("area 5") and current_area != 4:
-            await message.channel.send("{0}, you are now in area 5: {1}".format(message.author.name, dbf.getAreaName(4)))
+            await message.channel.send("✅ {0}, you are now in area 5: {1}".format(message.author.name, dbf.getAreaName(4)))
             dbf.changeArea(user_id, 4)
             return
         else:
@@ -324,4 +325,5 @@ async def on_message(message):
 
     if message.content == ("profile"):
         await message.channel.send("profile not implemented")
-client.run(token)
+
+client.run(token[0])
