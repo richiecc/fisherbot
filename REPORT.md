@@ -116,11 +116,11 @@ If a user types `shop` they will be presented with a shop menu. This menu displa
  4. `shop legendary`
  5. `shop unique`
 
-![Shop Rarity Message](images/report/shop%20rarity.png)
+![Shop Rarity Message](images/report/shop_rarity.png)
 
 Each of the shops are dynamically built based on the rarity of each fish in the Catchable table. The price for each entry is also dynamic since it is based on a formula which uses the area_id, rarity, and attribute: `attribute_weight * rarity weight * (area + 1)`. The catchable_id and the calculated price are then inserted into the Shop table for less CPU overhead and latency. Junk is automatically excluded from the shop.
 
-![Shop Common Message](images/report/shop%20common.png)
+![Shop Common Message](images/report/shop_common.png)
 
 #### **Selling Catchables**
 If a user types `sell` they will be presented with a sell menu. This menu displays commands required to sell items to the shop. There are convenient and easy to remember shop commands like the following:
@@ -128,19 +128,19 @@ If a user types `sell` they will be presented with a sell menu. This menu displa
  * `sell fish`
  * `sell junk`
 
-![Sell Menu Message](images/report/sell%20menu.png)
+![Sell Menu Message](images/report/sell_menu.png)
 
 These commands are fairly self-explanatory. `sell all` sells all things caught in the inventory, `sell fish` sells all fish in the inventory, and `sell junk` sells all junk in the inventory. If the user wants more power over what specific items they sell, there is a command that works for each individual item in the user's inventory:
  * `sell <amount> <catchable>`
 
-![Successfully Sold Message](images/report/sell%20success.png)
+![Successfully Sold Message](images/report/sell_success.png)
 
 Substitute `<amount>` with the amount the user wants to sell and `<catchables>` with the ***case sensitive*** name of the catchable in the user's inventory, like so: `sell 1 Cod`
 
 #### **Check experience**
 If a user types `xp` a message will be sent containing the user's total xp from the Users table.
 
-![User's total XP](images/report/xp%20total.png)
+![User's total XP](images/report/xp_total.png)
 
 #### **Buying Items**
 Purchasing items has not yet been implemented. The idea is to dynamically build the shop dispaly for fishing rods similar to the ones shown in the `shop` command.  
@@ -152,7 +152,7 @@ Purchasing items has not yet been implemented. The idea is to dynamically build 
 #### **Changing Current Area**
 If a user types `area` a message will be sent containing the user's current area.
 
-![User's Current Area](images/report/area%20current.png)
+![User's Current Area](images/report/area_current.png)
 
 The user can type `area <num>` to switch their current area. There are five different areas to choose from:
  * `area 1`: The Ocean
@@ -161,4 +161,4 @@ The user can type `area <num>` to switch their current area. There are five diff
  * `area 4`: Outer Space
  * `area 5`: Dimensional Rift
 
-![User Switches Area](images/report/area%202.png)
+![User Switches Area](images/report/area_2.png)
