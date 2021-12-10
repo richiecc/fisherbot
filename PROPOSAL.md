@@ -98,6 +98,7 @@ Since I'm writing this fairly late, I'm almost finished with the front-end and b
  * fish length in database
  * date caught in database
  * DB Generation script rewrite
+ * Achievements
 
 ### Notes
 Might not ever be finished with this project. It's something I really want to carry further than this class, and I'm known for having unfinished projects. Hope you enjoy and can use it. If not, I'll submit a presentation video for you.

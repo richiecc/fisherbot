@@ -25,8 +25,12 @@ Oh, also, `REPORT.md` since I need a grade for that.
  * `inv` to access your inventory
  * `shop` for the shop help menu
    * `shop <rarity>` to view sell prices of fish for a rarity
- * `sell <amount> <fish>` to sell fish
+ * `sell` to sell items
+   * `sell <amount> <fish>`
    * `sell 1 Salmon` <--- CASE SENSITIVE FISH NAME!
+   * `sell fish` to sell all fish
+   * `sell junk` to sell all junk
+   * `sell all` to sell both fish and junk
  * `xp` to check total xp
  * `rods`
    * not implemented
