@@ -58,6 +58,7 @@ These queries check for a value in the table and ultimately return a boolean val
  * *UserHaveCatchable*: returns True if user has catchable with given identification number and False if user does not have that catchable
 
 ### Forms
+These statements update or insert into a table.
  * *giveGold*: updates Users table to add gold given a user identification number and amount of gold
  * *insertNewUser*: creates a new user by inserting values into the Users and Inventory table given a user identification number
  * *giveUserItem*: inserts into Inventory given a user identification number, item identification number, and item amount
