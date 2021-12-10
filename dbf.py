@@ -17,54 +17,18 @@ cwd = os.getcwd()
 database_file_location = cwd + "/fisherbot.db"
 db = sqlite3.connect(database_file_location)
 
+# ----------------------------------------------------
+# ---------------- information queries ---------------
+# ----------------------------------------------------
 
-def queryUserData(user_id):
-    '''returns resultset from `select user_id from Users;`'''
+
+def getUserData(user_id):
     if debug:
         print("querying user data", end=": ")
     result = db.execute(
         "select * from Users where user_id = ?;", (str(user_id),))
     result.fetchall()
     return result
-
-
-def doesUserExist(user_id):
-    '''returns `True` if the return tuple has a length and `False` if length is 0'''
-    if debug:
-        print("checking if user exists", end=": ")
-    result = db.execute(
-        "select user_id from Users where user_id = ?;", (str(user_id),))
-    result = result.fetchall()
-    if debug:
-        print(result)
-    if result.__len__() == 0:
-        return False
-    return True
-
-
-def giveGold(user_id, amount):
-    db.execute(
-        "update users set gold = gold + ? where user_id = ?;", (amount, str(user_id)))
-    db.commit()
-
-
-def insertNewUser(user_id):
-    '''inserts user into database by `insert into Users values(user_id, 0, 0, 0, 0);`'''
-    if debug:
-        print("trying to insert user", end=": ")
-    try:
-        db.execute("insert into Users values (?, ?, ?, ?, ?);",
-                   (str(user_id), 0, 0, 0, 0))
-        if debug:
-            print("inserted", user_id, "into database")
-            print("giving Basic_Rod and some gold", end=": ")
-        db.execute("insert into inventory values(?, ?, ?);",
-                   (str(user_id), 0, 1))
-        if debug:
-            print("done! there u go bro")
-        db.commit()
-    except Exception:
-        print("FAILED AT insertNewUser")
 
 
 def getCurrentArea(user_id):
@@ -93,113 +57,24 @@ def getAreaName(area_id):
     return result
 
 
-def doesUserHaveItem(user_id, item_id):
-    result = db.execute(
-        "select item_id from Inventory where user_id = ? and item_id = ?;", (str(user_id), str(item_id)))
-    result = result.fetchall()
-    if result == []:
-        return False
-    else:
-        return True
-
-
-def giveUserItem(user_id, item_id, amount):
-    if amount <= 0:
-        return 1
-    if debug:
-        print("giving user item with id ", item_id)
-    if(doesUserHaveItem(user_id, item_id)):
-        db.execute("update inventory set amount = amount + ? where user_id = ? and item_id = ?;",
-                   (amount, str(user_id), str(item_id)))
-    else:
-        db.execute("insert into inventory values(?, ?, ?);",
-                   (str(user_id), str(item_id), amount))
-    db.commit()
-    return 0
-
-
-def doesUserHaveCatchable(user_id, catchable_id):
-    result = db.execute("select catchable_id from Basket where user_id = ? and catchable_id = ?;", (str(
-        user_id), str(catchable_id)))
-    result = result.fetchall()
-    if result.__len__() == 0:
-        return False
-    else:
-        return True
-
-
-def giveUserCatchable(user_id, catchable_id, amount):
-    if debug:
-        print("giving user catchable with id ", catchable_id)
-    if(doesUserHaveCatchable(user_id, catchable_id)):
-        db.execute("update basket set amount = amount + ? where user_id = ? and catchable_id = ?;",
-                   (amount, str(user_id), str(catchable_id)))
-    else:
-        db.execute("insert into Basket values(?, ?, ?);",
-                   (str(user_id), str(catchable_id), amount))
-    db.commit()
-    return 0
-
-
 def getFishFromAreaAndRarity(area_id, rarity):
     result = db.execute("select * from Catchable where area_id = ? and attribute = ? and rarity = ?;",
                         (str(area_id), "fish", str(rarity)))
-    return result.fetchall()
+    result = result.fetchall()
+    return result
 
 
 def getJunk():
     result = db.execute(
         "select * from Catchable where attribute = ?;", ("junk",))
-    return result.fetchall()
-
-
-def getItemIdByName(item_name):
-    result = db.execute(
-        "select item_id from Items where item_name = ?;", (str(item_name),))
     result = result.fetchall()
-    return result[0][0]
-
-
-def getCatchableById(catchable_id):
-    result = db.execute(
-        "select catchable_name, rarity, type from Catchable where catchable_id = ?;", (str(catchable_id),))
-    result.fetchall()
     return result
 
 
-def getCatchableNameById(catchable_id):
-    result = db.execute(
-        "select catchable_name from Catchable where catchable_id = ?;", (str(catchable_id),))
+def getAreas():
+    result = db.execute("select * from areas;")
     result = result.fetchall()
-    return result[0]
-
-
-def getItemNameById(item_id):
-    result = db.execute(
-        "select item_name from Items where item_id = ?;", (str(item_id),))
-    result = result.fetchall()
-    return result[0]
-
-
-def giveXpFromCatchableId(user_id, catchable_id):
-    xp_from_catchable = db.execute(
-        "select xp_on_catch from Catchable where catchable_id = ?;", (str(catchable_id),))
-    xp_from_catchable = xp_from_catchable.fetchall()[0][0]
-    if debug:
-        print("giving xp from {0} ({1}) :".format(
-            catchable_id, xp_from_catchable), end=": ")
-    db.execute("update users set xp = xp + ? where user_id = ?;",
-               (xp_from_catchable, str(user_id),))
-    if debug:
-        print("user", user_id, "has been given", xp_from_catchable, "xp")
-    db.commit()
-
-
-def getXpFromUserId(user_id):
-    result = db.execute(
-        "select xp from Users where user_id = ?;", (str(user_id),))
-    result = result.fetchall()
-    return result[0][0]
+    return result
 
 
 def getInventory(user_id):
@@ -216,6 +91,51 @@ def getBasket(user_id):
     return result
 
 
+def getItemIdByName(item_name):
+    result = db.execute(
+        "select item_id from Items where item_name = ?;", (str(item_name),))
+    result = result.fetchall()
+    return result[0][0]
+
+
+def getItemNameById(item_id):
+    result = db.execute(
+        "select item_name from Items where item_id = ?;", (str(item_id),))
+    result = result.fetchall()
+    return result[0]
+
+
+def getItemAmount(user_id, item_id):
+    result = db.execute(
+        "select amount from Inventory where user_id = ? and item_id = ?;", (str(user_id), str(item_id)))
+    result = result.fetchall()
+    if result == []:
+        return 0
+    else:
+        return result[0][0]
+
+
+def getCatchableById(catchable_id):
+    result = db.execute(
+        "select catchable_name, rarity, type from Catchable where catchable_id = ?;", (str(catchable_id),))
+    result.fetchall()
+    return result
+
+
+def getCatchableNameById(catchable_id):
+    result = db.execute(
+        "select catchable_name from Catchable where catchable_id = ?;", (str(catchable_id),))
+    result = result.fetchall()
+    return result[0]
+
+
+def getXpFromUserId(user_id):
+    result = db.execute(
+        "select xp from Users where user_id = ?;", (str(user_id),))
+    result = result.fetchall()
+    return result[0][0]
+
+
 def getGold(user_id):
     result = db.execute(
         "select gold from Users where user_id = ?", (str(user_id),))
@@ -223,8 +143,183 @@ def getGold(user_id):
     return result[0][0]
 
 
+def getShopTableByRarity(rarity):
+    result = db.execute(
+        "select c.catchable_name, s.buy_price, c.rarity from catchable c, shop s where s.catchable_id = c.catchable_id and c.rarity = ?;", (str(rarity),))
+    return result.fetchall()
+
+
+def getCatchableValueById(catchable_id):
+    result = db.execute(
+        "select buy_price from Shop s, catchable c where c.catchable_id = ? and c.catchable_id = s.catchable_id;", (str(catchable_id),))
+    result = result.fetchall()
+    if result == []:
+        return None
+    else:
+        return result[0][0]
+
+
+def getCatchableAmount(user_id, catchable_id):
+    result = db.execute(
+        "select amount from Basket where user_id = ? and catchable_id = ?;", (str(user_id), str(catchable_id)))
+    result = result.fetchall()
+    if result == []:
+        return 0
+    else:
+        return result[0][0]
+
+
+def getCatchableAttributeById(catchable_id):
+    result = db.execute(
+        "select attribute from Catchable where catchable_id = ?", (str(catchable_id),))
+    result = result.fetchall()
+    return result[0][0]
+
+
+def getCatchableIdByName(catchable_name):
+    result = db.execute(
+        "select catchable_id from catchable where catchable_name = ?", (str(catchable_name),))
+    result = result.fetchall()
+    if result == []:
+        return None
+    else:
+        return result[0][0]
+
+# ----------------------------------------------------
+# ----------------- boolean queries ------------------
+# ----------------------------------------------------
+
+
+def doesUserHaveItem(user_id, item_id):
+    result = db.execute(
+        "select item_id from Inventory where user_id = ? and item_id = ?;", (str(user_id), str(item_id)))
+    result = result.fetchall()
+    if result == []:
+        return False
+    else:
+        return True
+
+
+def doesUserExist(user_id):
+    '''returns `True` if the return tuple has a length and `False` if length is 0'''
+    if debug:
+        print("checking if user exists", end=": ")
+    result = db.execute(
+        "select user_id from Users where user_id = ?;", (str(user_id),))
+    result = result.fetchall()
+    if debug:
+        print(result)
+    if result.__len__() == 0:
+        return False
+    return True
+
+
+def doesUserHaveCatchable(user_id, catchable_id):
+    result = db.execute("select catchable_id from Basket where user_id = ? and catchable_id = ?;", (str(
+        user_id), str(catchable_id)))
+    result = result.fetchall()
+    if result.__len__() == 0:
+        return False
+    else:
+        return True
+
+
+# ----------------------------------------------------
+# ---------------------- forms -----------------------
+# ----------------------------------------------------
+
+def giveGold(user_id, amount):
+    db.execute(
+        "update users set gold = gold + ? where user_id = ?;", (amount, str(user_id)))
+    db.commit()
+    if debug:
+        print("gave {0} gold to user {1}".format(amount, user_id))
+
+
+def insertNewUser(user_id):
+    '''inserts user into database by `insert into Users values(user_id, 0, 0, 0, 0);`'''
+    if debug:
+        print("trying to insert user", end=": ")
+    try:
+        db.execute("insert into Users values (?, ?, ?, ?, ?);",
+                   (str(user_id), 0, 0, 0, 0))
+        if debug:
+            print("inserted", user_id, "into database")
+            print("giving Basic_Rod and some gold", end=": ")
+        db.execute("insert into inventory values(?, ?, ?);",
+                   (str(user_id), 0, 1))
+        if debug:
+            print("done! there u go bro")
+        db.commit()
+    except Exception:
+        print("FAILED AT insertNewUser")
+
+
+def giveUserItem(user_id, item_id, amount):
+    if amount <= 0:
+        return 1
+    if debug:
+        print("giving user {0} item(s) with id {1}".format(amount, item_id))
+    if(doesUserHaveItem(user_id, item_id)):
+        db.execute("update inventory set amount = amount + ? where user_id = ? and item_id = ?;",
+                   (amount, str(user_id), str(item_id)))
+    else:
+        db.execute("insert into inventory values(?, ?, ?);",
+                   (str(user_id), str(item_id), amount))
+    db.commit()
+    return 0
+
+
+def giveUserCatchable(user_id, catchable_id, amount):
+    if debug:
+        print("giving user {0} catchable(s) with id {1}".format(
+            amount, catchable_id))
+    if(doesUserHaveCatchable(user_id, catchable_id)):
+        db.execute("update basket set amount = amount + ? where user_id = ? and catchable_id = ?;",
+                   (amount, str(user_id), str(catchable_id)))
+    else:
+        db.execute("insert into Basket values(?, ?, ?);",
+                   (str(user_id), str(catchable_id), amount))
+    db.commit()
+    return 0
+
+
+def giveXpFromCatchableId(user_id, catchable_id):
+    xp_from_catchable = db.execute(
+        "select xp_on_catch from Catchable where catchable_id = ?;", (str(catchable_id),))
+    xp_from_catchable = xp_from_catchable.fetchall()[0][0]
+    if debug:
+        print("giving xp from catchable {0}".format(catchable_id), end=": ")
+    db.execute("update users set xp = xp + ? where user_id = ?;",
+               (xp_from_catchable, str(user_id),))
+    if debug:
+        print("+{0}xp".format(xp_from_catchable))
+    db.commit()
+
+
+def changeArea(user_id, area_id):
+    db.execute("update Users set area_id = ? where user_id = ?;",
+               (str(area_id), str(user_id)))
+    db.commit()
+    if debug:
+        print("changed area to {0} for {1}".format(str(area_id), str(user_id)))
+
+
+def incrementFishCaught(user_id):
+    db.execute(
+        "update Users set fish_caught = fish_caught + 1 where user_id = ?", (str(user_id),))
+    print("incremented fish caught for user {0}".format(user_id))
+    db.commit()
+
+
+# ----------------------------------------------------
+# ----------------------- other ----------------------
+# ----------------------------------------------------
+
 def rollCatchable(user_id):
-    '''rolls a catchable item based on user's `area_id`. it checks the user's inventory for
+    '''not technically a database function, but it's very bulky and belongs here instead of
+    the bot script.
+    rolls a catchable item based on user's `area_id`. it checks the user's inventory for
     the proper fishing rod if they are in an area that requires one. if everything checks out,
     the function returns the `catchable_id` of the catchable rolled. if the check fails, this
     function returns `None`.'''
@@ -383,66 +478,5 @@ def rollCatchable(user_id):
             else:
                 print("broke at area 3")
                 return None
-
     print(category_integer)
-
     return
-
-
-def getCatchableIdByName(catchable_name):
-    result = db.execute(
-        "select catchable_id from catchable where catchable_name = ?", (str(catchable_name),))
-    result = result.fetchall()
-    if result == []:
-        return None
-    else:
-        return result[0][0]
-
-
-def changeArea(user_id, area_id):
-    db.execute("update Users set area_id = ? where user_id = ?;",
-               (str(area_id), str(user_id)))
-    db.commit()
-    if debug:
-        print("changed area to {0} for {1}".format(str(area_id), str(user_id)))
-
-
-def getShopTableByRarity(rarity):
-    result = db.execute(
-        "select c.catchable_name, s.buy_price, c.rarity from catchable c, shop s where s.catchable_id = c.catchable_id and c.rarity = ?;", (str(rarity),))
-    return result.fetchall()
-
-
-def getAreaTable():
-    result = db.execute("select * from areas;")
-    return result.fetchall()
-
-
-def getCatchableValueById(catchable_id):
-    result = db.execute(
-        "select buy_price from Shop s, catchable c where c.catchable_id = ? and c.catchable_id = s.catchable_id;", (str(catchable_id),))
-    result = result.fetchall()
-    if result == []:
-        return None
-    else:
-        return result[0][0]
-
-
-def howManyOfCatchable(user_id, item_id):
-    result = db.execute(
-        "select amount from Basket where user_id = ? and catchable_id = ?;", (str(user_id), str(item_id)))
-    result = result.fetchall()
-    if result == []:
-        return 0
-    else:
-        return result[0][0]
-
-
-def howManyOfItem(user_id, item_id):
-    result = db.execute(
-        "select amount from Inventory where user_id = ? and item_id = ?;", (str(user_id), str(item_id)))
-    result = result.fetchall()
-    if result == []:
-        return 0
-    else:
-        return result[0][0]
