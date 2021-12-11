@@ -143,7 +143,7 @@ If a user types `xp` a message will be sent containing the user's total xp from 
 ![User's total XP](images/report/xp_total.png)
 
 #### **Buying Items**
-Purchasing items has not yet been implemented. The idea is to dynamically build the shop dispaly for fishing rods similar to the ones shown in the `shop` command.  
+Purchasing items has not yet been implemented. The idea is to dynamically build the shop display for fishing rods similar to the ones shown in the `shop` command.  
  * `rods`
    * Display which rods are purchasable, similar to how the `shop <rarity>` is displayed.
  * `buy rod <rod>`
