@@ -50,6 +50,7 @@ These queries return a table or a value from a table.
  * *CatchableAmount*: returns the amount of a catchable in Basket given a user identification number and an item identification number
  * *CatchableAttributeById*: returns the attribute of a catchable given the catchable identification number
  * *CatchableIdByName*: returns a catchable identification number given a catchable name
+ * *Rods*: returns item name, rarity, and value for all Items where the type is "rod"
 
 ### Boolean Queries
 These queries check for a value in the table and ultimately return a boolean value.
@@ -143,7 +144,7 @@ If a user types `xp` a message will be sent containing the user's total xp from 
 ![User's total XP](images/report/xp_total.png)
 
 #### **Buying Items**
-Purchasing items has not yet been implemented. The idea is to dynamically build the shop display for fishing rods similar to the ones shown in the `shop` command.  
+Displaying rods is implemented, but purchasing items is not. The idea is to dynamically build the shop display for fishing rods similar to the ones shown in the `shop` command.
  * `rods`
    * Display which rods are purchasable, similar to how the `shop <rarity>` is displayed.
  * `buy rod <rod>`
