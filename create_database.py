@@ -9,12 +9,12 @@ ONLY USE TO COMPLETELY REGENERATE DATABASE.
 """
 # https://stackoverflow.com/questions/54289555/how-do-i-execute-an-sqlite-script-from-within-python
 with open('database.sql', 'r') as sql_file:
-    sql_script = sql_file.read()
+    script = sql_file.read()
 
 
 db = sqlite3.connect('fisherbot.db')
 cursor = db.cursor()
-cursor.executescript(sql_script)
+cursor.executescript(script)
 db.commit()
 print("Done.")
 db.close()
