@@ -311,6 +311,29 @@ def incrementFishCaught(user_id):
     print("incremented fish caught for user {0}".format(user_id))
     db.commit()
 
+############ NEW FUNCTION
+def getRods():
+    result = db.execute("select item_name, rarity, value from Items where type = \"rod\";")
+    result = result.fetchall()
+    return result
+
+
+def getRodNames():
+    result = db.execute("select item_name from Items where type = \"rod\";")
+    result = result.fetchall()
+    return result[0]
+
+
+def getRodNamesAndValues():
+    result = db.execute(
+        "select item_name, value from Items where type = \"rod\";")
+    result = result.fetchall()
+    if result == []:
+        return None
+    else:
+        return result
+
+
 
 # ----------------------------------------------------
 # ----------------------- other ----------------------
