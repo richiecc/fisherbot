@@ -23,6 +23,7 @@ Oh, also, `REPORT.md` since I need a grade for that.
 ## Using the bot in a server
  * `f` to fish
  * `inv` to access your inventory
+ * `bal` or `balance` to view current gold balance
  * `shop` for the shop help menu
    * `shop <rarity>` to view sell prices of fish for a rarity
  * `sell` to sell items
@@ -32,10 +33,8 @@ Oh, also, `REPORT.md` since I need a grade for that.
    * `sell junk` to sell all junk
    * `sell all` to sell both fish and junk
  * `xp` to check total xp
- * `rods`
-   * not implemented
- * `buy rod <rod>`
-   * not implemented
+ * `rods` to viewrods all purchasable rods
+ * `buy rod <rod name>` to buy the rod (use name given by `rods`) 
  * `area` to see your current area
    * `area <num>` to set your area
 
