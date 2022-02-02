@@ -12,7 +12,7 @@ careful here, it's the front-end of the true back-end
 
 # if i dont remove the token in a commit, i changed it so dont worry.
 token = [
-    "no thanks bro"
+    ""
 ]
 
 debug = True
@@ -94,7 +94,7 @@ async def makeuser(message):
     welcome_embed = nextcord.Embed(title="Welcome!", description=str(
         message.author.name) + ", you have been given a **Basic Rod** to start `f`ishing.")
     dbf.insertNewUser(user_id)
-    await message.channel.send(embed=welcome_embed)
+    await message.reply(embed=welcome_embed)
     if debug:
         print("made user", user_id)
 
@@ -127,10 +127,10 @@ async def on_message(message):
             print("-----------------------------------------------")
         catchable_id = dbf.rollCatchable(user_id)
         if catchable_id == None:
-            await message.channel.send("\⛔ Invalid roll! (contact cook#7167 please)")
+            await message.reply("\⛔ Invalid roll! (contact cook#7167 please)")
             return
         elif catchable_id == "no_rod":
-            await message.channel.send("\⛔ You don't have the correct rod to fish in this area!")
+            await message.reply("\⛔ You don't have the correct rod to fish in this area!")
             return
         else:
             return_code = dbf.giveUserCatchable(user_id, catchable_id, 1)
@@ -157,7 +157,7 @@ async def on_message(message):
                 catchable_embed = nextcord.Embed(title="Caught!", description=str(
                     message.author.name) + ", you caught **" + catchable_name + "**!")
                 catchable_embed.set_thumbnail(url='attachment://' + filename)
-                await message.channel.send(embed=catchable_embed, file=catchable_file)
+                await message.reply(embed=catchable_embed, file=catchable_file)
         if debug:
             print("-----------------------------------------------")
 
@@ -168,7 +168,7 @@ async def on_message(message):
             await makeuser(message)
             return
         total_xp = dbf.getXpFromUserId(user_id)
-        await message.channel.send("\ℹ️ {0}, you have {1} total xp".format(message.author.name, str(total_xp)))
+        await message.reply("\ℹ️ {0}, you have {1} total xp".format(message.author.name, str(total_xp)))
 
     # inventory embed
     if message.content == ("inv"):
@@ -203,7 +203,7 @@ async def on_message(message):
                 "-", "").replace("_", "").replace("(", "").replace(")", "")
             emojistr = await getEmoji(emoji_name)
             inv_embed.add_field(name=emojistr, value=value, inline=True)
-        await message.channel.send(embed=inv_embed, file=inv_file)
+        await message.reply(embed=inv_embed, file=inv_file)
 
     # shop help and embed
     if message.content.startswith("shop"):
@@ -288,7 +288,7 @@ async def on_message(message):
                 name="sell junk", value="sells all junk and only junk", inline=False)
             sell_help_embed.add_field(
                 name="sell <amount> <item>", value="sells a user-specified amount of an item. the item name is **case-sensitive**")
-            await message.channel.send(embed=sell_help_embed)
+            await message.reply(embed=sell_help_embed)
             return
         # sell only fish
         if message.content == ("sell fish"):
@@ -307,11 +307,11 @@ async def on_message(message):
                 total_gold_made += amount_made
                 dbf.giveUserCatchable(user_id, fish_id, (num_fish * -1))
             if total_gold_made == 0:
-                await message.channel.send("\⛔ {0}, you don't have any fish to sell.".format(message.author.name))
+                await message.reply("\⛔ {0}, you don't have any fish to sell.".format(message.author.name))
                 return
             else:
                 dbf.giveGold(user_id, total_gold_made)
-                await message.channel.send("\✅ {0} sold all fish for a total of {1} {2}".format(message.author.name, gold_emoji, total_gold_made))
+                await message.reply("\✅ {0} sold all fish for a total of {1} {2}".format(message.author.name, gold_emoji, total_gold_made))
                 return
 
         # sell only junk
@@ -331,10 +331,10 @@ async def on_message(message):
                 else:
                     continue
             if junk_sold == 0:
-                await message.channel.send("\⛔ {0}, you don't have any junk to sell.".format(message.author.name))
+                await message.reply("\⛔ {0}, you don't have any junk to sell.".format(message.author.name))
                 return
             else:
-                await message.channel.send("\✅ {0} sold all junk items for {2} 0".format(message.author.name, junk_sold, gold_emoji))
+                await message.reply("\✅ {0} sold all junk items for {2} 0".format(message.author.name, junk_sold, gold_emoji))
                 return
 
         # sell everything
@@ -359,11 +359,11 @@ async def on_message(message):
                 fish_sold += 1
                 dbf.giveUserCatchable(user_id, fish_id, (num_fish * -1))
             if fish_sold == junk_sold == 0:
-                await message.channel.send("\⛔ {0}, you don't have anything to sell.".format(message.author.name))
+                await message.reply("\⛔ {0}, you don't have anything to sell.".format(message.author.name))
                 return
             else:
                 dbf.giveGold(user_id, total_gold_made)
-                await message.channel.send("\✅ {0} sold {1} fish and {2} junk for a total of {3} {4}".format(message.author.name, fish_sold, junk_sold, gold_emoji, total_gold_made))
+                await message.reply("\✅ {0} sold {1} fish and {2} junk for a total of {3} {4}".format(message.author.name, fish_sold, junk_sold, gold_emoji, total_gold_made))
                 return
 
         args = message.content.split(" ")
@@ -377,16 +377,16 @@ async def on_message(message):
             try:
                 amount = int(args[1])
             except:
-                await message.channel.send("\⛔ Improper command formatting. Type `sell` for help.")
+                await message.reply("\⛔ Improper command formatting. Type `sell` for help.")
                 return
             fish = args[2]
             fish_id = dbf.getCatchableIdByName(fish)
             if amount > dbf.getCatchableAmount(user_id, fish_id):
-                await message.channel.send(
+                await message.reply(
                     "\⛔ You don't have {0}".format(fish))
                 return
             elif amount <= 0:
-                await message.channel.send("\⛔ You can't sell {0} fish!?!?".format(amount))
+                await message.reply("\⛔ You can't sell {0} fish!?!?".format(amount))
                 return
             else:
                 emoji_name = str(fish).replace(" ", "").replace(
@@ -398,7 +398,7 @@ async def on_message(message):
 
                 dbf.giveUserCatchable(user_id, fish_id, (amount * -1))
                 dbf.giveGold(user_id, final_gold_value)
-                await message.channel.send("\✅ {0} sold {1} {2} for a total of {3} {4}".format(message.author.name, amount, emojistr, gold_emoji, final_gold_value))
+                await message.reply("\✅ {0} sold {1} {2} for a total of {3} {4}".format(message.author.name, amount, emojistr, gold_emoji, final_gold_value))
 
     # area help and change
     if message.content.startswith("area"):
@@ -408,48 +408,82 @@ async def on_message(message):
         current_area = int(dbf.getCurrentArea(user_id))
         if message.content == ("area 1") and current_area != 0:
             dbf.changeArea(user_id, 0)
-            await message.channel.send("\✅ {0}, you are now in area 1: {1}".format(message.author.name, dbf.getAreaName(0)))
+            await message.reply("\✅ {0}, you are now in area 1: {1}".format(message.author.name, dbf.getAreaName(0)))
             return
         if message.content == ("area 2") and current_area != 1:
-            await message.channel.send("\✅ {0}, you are now in area 2: {1}".format(message.author.name, dbf.getAreaName(1)))
+            await message.reply("\✅ {0}, you are now in area 2: {1}".format(message.author.name, dbf.getAreaName(1)))
             dbf.changeArea(user_id, 1)
             return
         if message.content == ("area 3") and current_area != 2:
-            await message.channel.send("\✅ {0}, you are now in area 3: {1}".format(message.author.name, dbf.getAreaName(2)))
+            await message.reply("\✅ {0}, you are now in area 3: {1}".format(message.author.name, dbf.getAreaName(2)))
             dbf.changeArea(user_id, 2)
             return
         if message.content == ("area 4") and current_area != 3:
-            await message.channel.send("\✅ {0}, you are now in area 4: {1}".format(message.author.name, dbf.getAreaName(3)))
+            await message.reply("\✅ {0}, you are now in area 4: {1}".format(message.author.name, dbf.getAreaName(3)))
             dbf.changeArea(user_id, 3)
             return
         if message.content == ("area 5") and current_area != 4:
-            await message.channel.send("\✅ {0}, you are now in area 5: {1}".format(message.author.name, dbf.getAreaName(4)))
+            await message.reply("\✅ {0}, you are now in area 5: {1}".format(message.author.name, dbf.getAreaName(4)))
             dbf.changeArea(user_id, 4)
             return
         else:
-            await message.channel.send("\ℹ️ {0}, you are in area {1}: {2}".format(message.author.name, current_area + 1, dbf.getAreaName(current_area)))
+            await message.reply("\ℹ️ {0}, you are in area {1}: {2}".format(message.author.name, current_area + 1, dbf.getAreaName(current_area)))
 
     # list rods
     if message.content == ("rods"):
         if not dbf.doesUserExist(user_id):
             await makeuser(message)
             return
-        await message.channel.send("\⛔ rods not implemented")
+        rods = dbf.getRods()
+        rods_embed = nextcord.Embed()
+        rods_embed = nextcord.Embed(title="Selling Items")
+        rods_embed.color = nextcord.Colour.from_rgb(139,69,19)
+        
+        print(rods)
+        for rod in rods:
+            item_name = rod[0]
+            if item_name == "Basic Rod":
+                continue
+            rarity = rod[1]
+            value = rod[2]
+            emoji_name = str(item_name).replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", "")
+            emojistr = await getEmoji(emoji_name)
+            rods_embed.add_field(name="{0} {1}".format(item_name, emojistr), value="{0} {1}".format(value, gold_emoji), inline=False)
+        await message.channel.send(embed=rods_embed)
 
     # list and purchase items
-    if message.content == ("buy"):
+    if message.content.startswith("buy"):
         if not dbf.doesUserExist(user_id):
             await makeuser(message)
             return
-        if message.content == ("buy rod"):
+        if message.content.startswith("buy rod"):
+            arg = message.content[8:]
+            if arg == "":
+                await message.reply("\⛔ no rod specified")
+                return
+            rod_table = dbf.getRodNamesAndValues()
+            for rod in rod_table:
+                if arg.lower() == "basic rod":
+                    continue
+                elif arg.lower() == rod[0].lower():
+                    rod_name = rod[0]
+                    value = rod[1]
+            dbf.giveGold(value * -1)
+            dbf.giveUserItem(dbf.getItemIdByName(rod_name))
+            await message.reply("✅ {0} successfully purchased {1} for {2} {3}".format(message.author.name, rod_name, gold_emoji, value))
             return
-        await message.channel.send("\⛔ buy not implemented")
+        else:
+            await message.reply("BUY HELP EMBED")
+
+    if message.content == "bal" or message.content == "balance":
+        bal = dbf.getGold(message.author.id)
+        await message.reply("{0}, your balance is {1} {2}".format(message.author.name, gold_emoji, bal))
 
     # user profile to show off
     if message.content == ("profile"):
         if not dbf.doesUserExist(user_id):
             await makeuser(message)
             return
-        await message.channel.send("\⛔ profile not implemented")
+        await message.reply("\⛔ profile not implemented")
 
 client.run(token[0])
