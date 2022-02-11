@@ -437,8 +437,8 @@ async def on_message(message):
         rods = dbf.getRods()
         rods_embed = nextcord.Embed()
         rods_embed = nextcord.Embed(title="Selling Items")
-        rods_embed.color = nextcord.Colour.from_rgb(139,69,19)
-        
+        rods_embed.color = nextcord.Colour.from_rgb(139, 69, 19)
+
         print(rods)
         for rod in rods:
             item_name = rod[0]
@@ -446,9 +446,11 @@ async def on_message(message):
                 continue
             rarity = rod[1]
             value = rod[2]
-            emoji_name = str(item_name).replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", "")
+            emoji_name = str(item_name).replace(" ", "").replace(
+                "-", "").replace("_", "").replace("(", "").replace(")", "")
             emojistr = await getEmoji(emoji_name)
-            rods_embed.add_field(name="{0} {1}".format(item_name, emojistr), value="{0} {1}".format(value, gold_emoji), inline=False)
+            rods_embed.add_field(name="{0} {1}".format(
+                item_name, emojistr), value="{0} {1}".format(value, gold_emoji), inline=False)
         await message.channel.send(embed=rods_embed)
 
     # list and purchase items
