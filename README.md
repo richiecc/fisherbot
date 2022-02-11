@@ -1,3 +1,4 @@
+# This is a school project. 
 # FISHERBOT
 
 If you want to use this bot, head over to this [Discord server I made for it](https://discord.gg/bmESktfuQT). It's only me and the bot there at the moment. I think you can join with a guest account in your browser (no account creation required) so give it a shot. I'll try to leave the bot running for as long as I can.
