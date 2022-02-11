@@ -21,7 +21,7 @@ The following information is to understand and potentially rebuild the database 
 <br>
 <br>
 
-![Image of Database](images/report/db.png)
+![Image of Database](../images/report/db.png)
 
 <br>
 
@@ -71,7 +71,7 @@ These statements update or insert into a table.
 ## Discord Bot Development
 The only users of this database will be Discord users. When users issue any command to the Discord bot through a text channel, the bot automatically creates a user profile. After the profile is created, a welcome message is displayed:
 
-![Welcome Message](images/report/welcome.png)
+![Welcome Message](../images/report/welcome.png)
 
 The next time the user runs a command it will execute properly.
 
@@ -102,12 +102,12 @@ This is the base information for all users. The only different item would be use
 #### **Fishing**
 If a user types `f`, the user has a 90% chance of getting a fish and a 10% chance of getting junk. After this is decided, a random fish is selected from all fish possible that match area_id with the user's current area. A nice message is displayed after the command is executed.
 
-![Fish Caught Message](images/report/caught.png)
+![Fish Caught Message](../images/report/caught.png)
 
 #### **Accessing the Inventory**
 If a user types `inv` they are given a message with a clean view of their inventory. The inventory is dynamically built using entries in both the Inventory and Basket tables as well as the Users table for the user's current amount of gold.
 
-![Inventory Access Message](images/report/inventory.png)
+![Inventory Access Message](../images/report/inventory.png)
 
 #### **Viewing the Shop**
 If a user types `shop` they will be presented with a shop menu. This menu displays commands for accessing the fish shop based on item rarity. There are currently five shops available to the user based on the five different rarities:
@@ -117,11 +117,11 @@ If a user types `shop` they will be presented with a shop menu. This menu displa
  4. `shop legendary`
  5. `shop unique`
 
-![Shop Rarity Message](images/report/shop_rarity.png)
+![Shop Rarity Message](../images/report/shop_rarity.png)
 
 Each of the shops are dynamically built based on the rarity of each fish in the Catchable table. The price for each entry is also dynamic since it is based on a formula which uses the area_id, rarity, and attribute: `attribute_weight * rarity weight * (area + 1)`. The catchable_id and the calculated price are then inserted into the Shop table for less CPU overhead and latency. Junk is automatically excluded from the shop.
 
-![Shop Common Message](images/report/shop_common.png)
+![Shop Common Message](../images/report/shop_common.png)
 
 #### **Selling Catchables**
 If a user types `sell` they will be presented with a sell menu. This menu displays commands required to sell items to the shop. There are convenient and easy to remember shop commands like the following:
@@ -129,19 +129,19 @@ If a user types `sell` they will be presented with a sell menu. This menu displa
  * `sell fish`
  * `sell junk`
 
-![Sell Menu Message](images/report/sell_menu.png)
+![Sell Menu Message](../images/report/sell_menu.png)
 
 These commands are fairly self-explanatory. `sell all` sells all things caught in the inventory, `sell fish` sells all fish in the inventory, and `sell junk` sells all junk in the inventory. If the user wants more power over what specific items they sell, there is a command that works for each individual item in the user's inventory:
  * `sell <amount> <catchable>`
 
-![Successfully Sold Message](images/report/sell_success.png)
+![Successfully Sold Message](../images/report/sell_success.png)
 
 Substitute `<amount>` with the amount the user wants to sell and `<catchables>` with the ***case sensitive*** name of the catchable in the user's inventory, like so: `sell 1 Cod`
 
 #### **Check experience**
 If a user types `xp` a message will be sent containing the user's total xp from the Users table.
 
-![User's total XP](images/report/xp_total.png)
+![User's total XP](../images/report/xp_total.png)
 
 #### **Buying Items**
 Displaying rods is implemented, but purchasing items is not. The idea is to dynamically build the shop display for fishing rods similar to the ones shown in the `shop` command.
@@ -153,7 +153,7 @@ Displaying rods is implemented, but purchasing items is not. The idea is to dyna
 #### **Changing Current Area**
 If a user types `area` a message will be sent containing the user's current area.
 
-![User's Current Area](images/report/area_current.png)
+![User's Current Area](../images/report/area_current.png)
 
 The user can type `area <num>` to switch their current area. There are five different areas to choose from:
  * `area 1`: The Ocean
@@ -162,4 +162,4 @@ The user can type `area <num>` to switch their current area. There are five diff
  * `area 4`: Outer Space
  * `area 5`: Dimensional Rift
 
-![User Switches Area](images/report/area_2.png)
+![User Switches Area](../images/report/area_2.png)
