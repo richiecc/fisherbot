@@ -17,6 +17,7 @@ token = [
 
 debug = True
 cwd = os.getcwd()
+# yes i know i dont use this wow incredible!!!!!!!!
 client = commands.Bot(command_prefix='$')
 
 
