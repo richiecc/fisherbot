@@ -1,6 +1,6 @@
 # FISHERBOT
 
-If you want to use this bot, head over to this [Discord server I made for it](https://discord.gg/wSnMpMN8RW). It's only me and the bot there at the moment. I think you can join with a guest account in your browser (no account creation required) so give it a shot. I'll try to leave the bot running for as long as I can.
+If you want to use this bot, head over to this [Discord server I made for it](https://discord.gg/bmESktfuQT). It's only me and the bot there at the moment. I think you can join with a guest account in your browser (no account creation required) so give it a shot. I'll try to leave the bot running for as long as I can.
 
 Below are for understanding how the python scripts work. You're probably more interested in project deliverables. `PROPOSAL.md` for that.
 <br>
@@ -9,7 +9,7 @@ Oh, also, `REPORT.md` since I need a grade for that.
 
 ## Requirements
 ### Generation of SQLite3 `.db` file and `.sql` scripts 
-* [Python 3.9.9](https://www.python.org/downloads/release/python-399/)
+* [Latest python](https://www.python.org/downloads/)
 * [sqlite for your OS](https://sqlite.org/index.html)
 * [sqlite3 for python](https://docs.python.org/3/library/sqlite3.html)
 
