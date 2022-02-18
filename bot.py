@@ -89,7 +89,7 @@ gold_emoji = "<:Coins:917234940230385724>"
 
 
 async def makeuser(message):
-    '''creates user given the message. call tihs AFTER checking the database PLEASE GOD PLEASE
+    '''creates user given the message. call this AFTER checking the database PLEASE GOD PLEASE
     this is just a basic function so dont make it difficult...'''
     user_id = message.author.id
     welcome_embed = nextcord.Embed(title="Welcome!", description=str(
