@@ -311,9 +311,12 @@ def incrementFishCaught(user_id):
     print("incremented fish caught for user {0}".format(user_id))
     db.commit()
 
-############ NEW FUNCTION
+# NEW FUNCTION
+
+
 def getRods():
-    result = db.execute("select item_name, rarity, value from Items where type = \"rod\";")
+    result = db.execute(
+        "select item_name, rarity, value from Items where type = \"rod\";")
     result = result.fetchall()
     return result
 
@@ -332,7 +335,6 @@ def getRodNamesAndValues():
         return None
     else:
         return result
-
 
 
 # ----------------------------------------------------
@@ -486,7 +488,7 @@ def rollCatchable(user_id):
                 fish = getFishFromAreaAndRarity(3, "Uncommon")
                 fish_id = fish[rand.randint(0, len(fish)-1)][0]
                 return fish_id
-            elif 5 <= rarity_integer <= 30:
+            elif 5 < rarity_integer <= 30:
                 if debug:
                     print("Rare")
                 fish = getFishFromAreaAndRarity(3, "Rare")
