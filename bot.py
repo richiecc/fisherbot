@@ -128,7 +128,8 @@ async def on_message(message):
             print("-----------------------------------------------")
         catchable_id = dbf.rollCatchable(user_id)
         if catchable_id == None:
-            await message.reply("\⛔ Invalid roll! (contact cook#7167 please)")
+            print("INVALID ROLL")
+            await message.reply("\⛔ Invalid roll! If you are in Dimensional Rift, it has not been implemented yet. Please switch to the previous area, Outer Space.\nIf you are not in Dimensional Rift, contact me (cook#7167) please.")
             return
         elif catchable_id == "no_rod":
             await message.reply("\⛔ You don't have the correct rod to fish in this area!")
@@ -144,19 +145,17 @@ async def on_message(message):
                 if debug:
                     print("user has been given catchable", catchable_id)
                 dbf.giveXpFromCatchableId(user_id, catchable_id)
-                catchable_name = dbf.getCatchableNameById(catchable_id)[0]
-                if catchable_name == "Broken Glass":
-                    catchable_name = "Broken_Glass"
+                catchable_name = dbf.getCatchableNameById(
+                    catchable_id)[0].replace(" ", "_")
                 ext = ".png"
                 filename = catchable_name + ext
-
+                print(filename)
                 filepath = cwd + "/images/catchable/" + filename
-
                 if debug:
                     print(filepath)
                 catchable_file = nextcord.File(filepath, filename=filename)
                 catchable_embed = nextcord.Embed(title="Caught!", description=str(
-                    message.author.name) + ", you caught **" + catchable_name + "**!")
+                    message.author.name) + ", you caught **" + catchable_name.replace("_", " ") + "**!")
                 catchable_embed.set_thumbnail(url='attachment://' + filename)
                 await message.reply(embed=catchable_embed, file=catchable_file)
         if debug:
@@ -461,6 +460,10 @@ async def on_message(message):
             return
         if message.content.startswith("buy rod"):
             arg = message.content[8:]
+            rod_name = ""
+            value = 0
+            rod_id = ""
+            print(arg)
             if arg == "":
                 await message.reply("\⛔ no rod specified")
                 return
@@ -471,9 +474,19 @@ async def on_message(message):
                 elif arg.lower() == rod[0].lower():
                     rod_name = rod[0]
                     value = rod[1]
-            dbf.giveGold(value * -1)
-            dbf.giveUserItem(dbf.getItemIdByName(rod_name))
-            await message.reply("✅ {0} successfully purchased {1} for {2} {3}".format(message.author.name, rod_name, gold_emoji, value))
+                    rod_id = dbf.getItemIdByName(arg)
+                    if dbf.getItemAmount(user_id, rod_id) > 0:
+                        await message.reply("\⛔ {0}, you already have the {1}!".format(message.author.name, rod_name))
+                    else:
+                        dbf.giveUserItem(
+                            user_id, dbf.getItemIdByName(rod_name), 1)
+                        currentgold = dbf.getGold(user_id)
+                        if currentgold < value:
+                            await message.reply("\⛔ {0}, you need {1} more gold to purchase the {2}".format(message.author.name, (value - currentgold), rod_name))
+                            return
+                        else:
+                            dbf.giveGold(user_id, value * -1)
+                            await message.reply("✅ {0} successfully purchased {1} for {2} {3}".format(message.author.name, rod_name, gold_emoji, value))
             return
         else:
             await message.reply("BUY HELP EMBED")
