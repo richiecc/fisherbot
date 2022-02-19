@@ -116,6 +116,9 @@ async def on_message(message):
         return
     user_id = message.author.id
 
+    if message.content == ("help"):
+        await message.reply("https://github.com/21zz/fisherbot")
+        return
     # fish for fish
     if message.content == ("f"):
         # add user to db if they dont exist. give them 100 gold as well.
