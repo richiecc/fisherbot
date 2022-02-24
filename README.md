@@ -84,5 +84,4 @@ Run this to run the bot. It's as simple as that. I haven't properly formatted th
    * Number of fish caught
    * Gold
    * Rarest fish in basket
-     * Date caught (needs db changes)
    * Rods/Areas Unlocked
