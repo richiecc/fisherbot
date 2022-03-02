@@ -1,0 +1,49 @@
+import dbf
+import nextcord
+from commands.makeuser import *
+import os
+cwd = os.getcwd()
+debug = True
+
+async def f(message,user_id): 
+        # add user to db if they dont exist. give them 100 gold as well.
+        if not dbf.doesUserExist(user_id):
+            return await makeuser(message)
+        if debug:
+            print("-----------------------------------------------")
+            print("user {0} is fishing".format(user_id))
+            print("-----------------------------------------------")
+        catchable_id = dbf.rollCatchable(user_id)
+        if catchable_id == None:
+            print("INVALID ROLL")
+            await message.reply("\⛔ Invalid roll! If you are in Dimensional Rift, it has not been implemented yet. Please switch to the previous area, Outer Space.\nIf you are not in Dimensional Rift, contact me (cook#7167) please.")
+            return
+        elif catchable_id == "no_rod":
+            await message.reply("\⛔ You don't have the correct rod to fish in this area!")
+            return
+        else:
+            return_code = dbf.giveUserCatchable(user_id, catchable_id, 1)
+            if return_code == 1:
+                if debug:
+                    print("tried to give negative amount of catchable", catchable_id)
+            elif return_code == 0:
+                if dbf.getCatchableAttributeById(catchable_id) == ("fish"):
+                    dbf.incrementFishCaught(user_id)
+                if debug:
+                    print("user has been given catchable", catchable_id)
+                dbf.giveXpFromCatchableId(user_id, catchable_id)
+                catchable_name = dbf.getCatchableNameById(
+                    catchable_id)[0].replace(" ", "_")
+                ext = ".png"
+                filename = catchable_name + ext
+                print(filename)
+                filepath = cwd + "/images/catchable/" + filename
+                if debug:
+                    print(filepath)
+                catchable_file = nextcord.File(filepath, filename=filename)
+                catchable_embed = nextcord.Embed(title="Caught!", description=str(
+                    message.author.name) + ", you caught **" + catchable_name.replace("_", " ") + "**!")
+                catchable_embed.set_thumbnail(url='attachment://' + filename)
+                await message.reply(embed=catchable_embed, file=catchable_file)
+        if debug:
+            print("-----------------------------------------------")
