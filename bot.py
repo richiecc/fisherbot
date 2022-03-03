@@ -97,14 +97,6 @@ async def on_message(message):
             await makeuser(message)
             return
         await message.reply("\⛔ profile not implemented")
-    if message.content == ("reload"):
-        print('test')
-        try:
-            await message.reply("is it working?")
-            await client.reload_extension("commands")
-            await message.reply("files reloaded!")
-        except Exception as err:
-            print(str(err))
 
 #client.run(token[0]) # when importing a discord token, python can't determine whether its a string or an object!
 client.run(bot_token.token) # this is much better
