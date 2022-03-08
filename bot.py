@@ -1,39 +1,8 @@
+import os
 import nextcord
 from nextcord.ext import commands
 from nextcord.errors import Forbidden
-
-import dbf
-import os
-
-'''
-main bot script.
-careful here, it's the front-end of the true back-end
-'''
-# TOKEN OPTIONS
-# pip install python-dotenv # client.run(os.getenv('token'))
-# OR
-# create bot_token.py & type in: token = ""
-import bot_token
-
-# if i dont remove the token in a commit, i changed it so dont worry.
-# UPDATE 02/03/2022 - We now utilize a bot_token.py file to store the token.
-#token = [
-#    ""
-#]
-
-debug = True
-cwd = os.getcwd()
-# yes i know i dont use this wow incredible!!!!!!!!
-client = commands.Bot(command_prefix='$')
-
-
-@client.event
-async def on_ready():
-    print("We have logged in as {0.user}".format(client))
-
-
-# lets import command functions instead!
-
+# bot commands
 from commands.help import *
 from commands.makeuser import *
 from commands.getEmoji import *
@@ -45,6 +14,30 @@ from commands.sell import *
 from commands.area import *
 from commands.rods import *
 from commands.buy import *
+# database functions
+import dbf
+
+
+'''
+main bot script.
+careful here, it's the front-end of the true back-end
+'''
+# TOKEN OPTIONS
+# pip install python-dotenv # client.run(os.getenv('token'))
+# OR
+# create bot_token.py & type in: token = ""
+import bot_token
+
+debug = True
+cwd = os.getcwd()
+# yes i know i dont use this wow incredible!!!!!!!!
+client = commands.Bot(command_prefix='$')
+
+
+@client.event
+async def on_ready():
+    print("We have logged in as {0.user}".format(client))
+
 
 @client.event
 async def on_message(message):
@@ -98,5 +91,4 @@ async def on_message(message):
             return
         await message.reply("\⛔ profile not implemented")
 
-#client.run(token[0]) # when importing a discord token, python can't determine whether its a string or an object!
 client.run(bot_token.token) # this is much better
