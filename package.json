@@ -1,0 +1,11 @@
+{
+  "name":"fishbot",
+  "scripts": {
+    "watch": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon --exec python3 bot.py"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
