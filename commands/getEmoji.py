@@ -14,7 +14,7 @@ async def print_emoji_list():
 
 # EMOJIS FOR BOT TO USE. DO NOT CHANGE. USE ABOVE SCRIPT TO UPDATE VIA STDOUT IF YOU NEED.
 # CALL IT WITH A BOT FUNCTION
-emojis_list = emojis_list = [
+emojis_list = [
 
     ("Anemone",                 916323453781565521),
     ("BlackTang",               916323511545511968),
