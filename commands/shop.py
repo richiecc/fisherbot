@@ -1,12 +1,26 @@
+"""
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import dbf
 from commands.makeuser import *
 import nextcord
 from commands.getEmoji import *
 
-async def shop(message,user_id):
+
+async def shop(message, user_id):
     if not dbf.doesUserExist(user_id):
-       return await makeuser(message)
-        
+        return await makeuser(message)
+
     shop_embed = nextcord.Embed()
 
     shop_table = []
@@ -57,13 +71,13 @@ async def shop(message,user_id):
                 name="{0} {1}".format(item_name, emojistr), value="{0} {1}".format(gold_emoji, item_price), inline=True)
     else:
         shop_embed.add_field(name="shop common",
-                                value="displays common fish and their sell values", inline=False)
+                             value="displays common fish and their sell values", inline=False)
         shop_embed.add_field(name="shop uncommon",
-                                value="displays uncommon fish and their sell values", inline=False)
+                             value="displays uncommon fish and their sell values", inline=False)
         shop_embed.add_field(
             name="shop rare", value="displays rare fish and their sell values", inline=False)
         shop_embed.add_field(name="shop legendary",
-                                value="displays legendary fish and their sell values", inline=False)
+                             value="displays legendary fish and their sell values", inline=False)
         shop_embed.add_field(name="shop unique",
-                                value="displays unique fish and their sell values", inline=False)
+                             value="displays unique fish and their sell values", inline=False)
     await message.channel.send(embed=shop_embed)

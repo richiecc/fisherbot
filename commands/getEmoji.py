@@ -1,3 +1,15 @@
+"""
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 
 '''
 # print updated emoji array for database
@@ -62,6 +74,8 @@ emojis_list = [
 gold_emoji = "<:Coins:917234940230385724>"
 # async function to turn an emoji from the list into a properly formatted
 # discord emoji
+
+
 async def getEmoji(emoji_name):
     for emoji in emojis_list:
         if(emoji[0] == emoji_name):
