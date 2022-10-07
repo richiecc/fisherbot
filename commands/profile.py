@@ -17,29 +17,40 @@ from util.level import *
 from util.getEmoji import *
 
 
+
+
+
+
+
+
+
 async def profile(message:discord.Message):
     user_id = message.author.id
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     
+    embed_user_id = user_id
+    embed_avatar_target = message.author.avatar
+    mentions = message.mentions
+    if len(mentions) != 0:
+        mentioned_user = mentions[0]
+        embed_user_id = mentioned_user.id
+        embed_avatar_target = mentioned_user.avatar
+
     profile_embed = discord.Embed()
     profile_embed.color = discord.Color.yellow()
-    
     # experience
-    comma_formatted_xp = "{:,}".format(int(dbf.getXpFromUserId(user_id)))
+    comma_formatted_xp = "{:,}".format(int(dbf.getXpFromUserId(embed_user_id)))
     profile_embed.add_field(name="📈 Experience", value=comma_formatted_xp,inline=True)
-    
     # level
-    user_level = levelFromXP(int(dbf.getXpFromUserId(user_id)))
+    user_level = levelFromXP(int(dbf.getXpFromUserId(embed_user_id)))
     profile_embed.add_field(name="👾 Level", value=user_level, inline=True)
-    
     # gold
-    user_gold = "{:,}".format(int(dbf.getGold(user_id)))
+    user_gold = "{:,}".format(int(dbf.getGold(embed_user_id)))
     profile_embed.add_field(name=f"{gold_emoji} Gold", value=user_gold, inline=True)
-
     # rods unlocked
     rod_emoji_list = []
-    user_inventory = dbf.getInventory(user_id)
+    user_inventory = dbf.getInventory(embed_user_id)
     for item in user_inventory:
         item_amount = item[2]
         if item_amount == 0:
@@ -48,13 +59,11 @@ async def profile(message:discord.Message):
         rod_emoji = await getEmoji(str(dbf.getItemNameById(item[1]).replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", "")))
         rod_emoji_list.append(rod_emoji)
     profile_embed.add_field(name="🎣 Rods Unlocked", value=" ".join(rod_emoji_list), inline=True)
-    
     # favorite area
-    fav_area = dbf.getFavoriteArea(user_id)
+    fav_area = dbf.getFavoriteArea(embed_user_id)
     profile_embed.add_field(name="🚧 Favorite Area", value=fav_area, inline=True)
-
     # rarest fish caught
-    rarest_fish_id = dbf.getRarestFishId(user_id)
+    rarest_fish_id = dbf.getRarestFishId(embed_user_id)
     if rarest_fish_id == -1:
         profile_embed.add_field(name="Rarest Fish Caught", value="No fish!", inline=True)
     else:
@@ -64,11 +73,9 @@ async def profile(message:discord.Message):
         rarest_fish_emoji = await getEmoji(str(rarest_fish_name.replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", "")))
         rarest_fish_rarity = dbf.getCatchableRarityById(rarest_fish_id)
         profile_embed.add_field(name="Rarest Fish Caught", value=f"{rarest_fish_emoji} {rarest_fish_name} ({rarest_fish_rarity})", inline=True)
-
     # total fish caught
-    comma_formatted_fish_caught = "{:,}".format(int(dbf.getNumFishCaught(user_id)))
+    comma_formatted_fish_caught = "{:,}".format(int(dbf.getNumFishCaught(embed_user_id)))
     profile_embed.add_field(name="Total fish caught", value=comma_formatted_fish_caught, inline=True)
-    
     # user profile picture
-    profile_embed.set_thumbnail(url=message.author.avatar.url)
-    await message.channel.send(embed=profile_embed)
+    profile_embed.set_thumbnail(url=embed_avatar_target)
+    return await message.reply(embed=profile_embed)
