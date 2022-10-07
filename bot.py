@@ -39,7 +39,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 debug = True
 cwd = os.getcwd()
-prefix = ";"
+prefix = ""
 # yes i know i dont use this wow incredible!!!!!!!!
 client = commands.Bot(command_prefix=prefix, intents=intents)
 
@@ -48,6 +48,7 @@ client = commands.Bot(command_prefix=prefix, intents=intents)
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
 
+"""
 @client.event
 async def on_guild_join(guild:discord.Guild):
     msg = f"sup, type `{prefix}f`"
@@ -68,6 +69,7 @@ async def on_guild_join(guild:discord.Guild):
     else:
         msg_channel = bot_channels[0]
     return await guild.get_channel(msg_channel).send(msg)
+"""
 
 @client.event
 async def on_message(message:discord.Message):
