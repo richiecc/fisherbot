@@ -39,14 +39,35 @@ intents = discord.Intents.default()
 intents.message_content = True
 debug = True
 cwd = os.getcwd()
+prefix = ";"
 # yes i know i dont use this wow incredible!!!!!!!!
-client = commands.Bot(command_prefix='$', intents=intents)
+client = commands.Bot(command_prefix=prefix, intents=intents)
 
 
 @client.event
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
 
+@client.event
+async def on_guild_join(guild:discord.Guild):
+    msg = f"sup, type `{prefix}f`"
+    channels = guild.fetch_channels()
+    bot_channels = []
+    general_channels = []
+    for channel in channels:
+        if "bot" in channel.lower():
+            bot_channels.append(channel)
+        if "general" in channels.lower():
+            general_channels.append(channel)
+    
+    if len(bot_channels) == 0:
+        if len(general_channels) == 0:
+            msg_channel = guild.get_channel(channels[0])
+        else:
+            msg_channel = general_channels[0]
+    else:
+        msg_channel = bot_channels[0]
+    return await guild.get_channel(msg_channel).send(msg)
 
 @client.event
 async def on_message(message:discord.Message):
@@ -55,42 +76,42 @@ async def on_message(message:discord.Message):
         return
     user_id = message.author.id
 
-    if message.content == ("help"):
+    if message.content == (f"{prefix}help"):
         return await help(message)
 
     # fish for fish
-    if message.content == ("f"):
+    if message.content == (f"{prefix}f"):
         return await f(message)
 
     # total xp TODO: MAKE EMBED
-    if message.content == ("xp"):
+    if message.content == (f"{prefix}xp"):
         return await xp(message)
 
     # inventory embed
-    if message.content == ("inv"):
+    if message.content == (f"{prefix}inv"):
         return await inv(message)
 
     # shop help and embed
-    if message.content.startswith("shop"):
+    if message.content.startswith(f"{prefix}shop"):
         return await shop(message)
 
     # sell items from inventory
-    if message.content.startswith("sell"):
+    if message.content.startswith(f"{prefix}sell"):
         return await sell(message)
 
     # area help and change
-    if message.content.startswith("area"):
+    if message.content.startswith(f"{prefix}area"):
         return await area(message)
 
     # list rods
-    if message.content == ("rods"):
+    if message.content == (f"{prefix}rods"):
         return await rods(message)
 
     # list and purchase items
-    if message.content.startswith("buy"):
+    if message.content.startswith(f"{prefix}buy"):
         return await buy(message)
 
-    if message.content == "bal" or message.content == "balance":
+    if message.content == f"{prefix}bal" or message.content == f"{prefix}balance":
         bal = dbf.getGold(message.author.id)
         await message.reply("{0}, your balance is {1} {2}".format(message.author.name, gold_emoji, bal))
 
