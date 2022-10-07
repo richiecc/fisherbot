@@ -13,7 +13,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
 import os
 
 import discord
@@ -31,6 +30,7 @@ from commands.getEmoji import *
 from commands.help import *
 from commands.inv import *
 from commands.makeuser import *
+from commands.profile import *
 from commands.rods import *
 from commands.sell import *
 from commands.shop import *
@@ -96,10 +96,10 @@ async def on_message(message:discord.Message):
         await message.reply("{0}, your balance is {1} {2}".format(message.author.name, gold_emoji, bal))
 
     # user profile to show off
-    if message.content == ("profile"):
+    if message.content.lower() == ("profile"):
         if not dbf.doesUserExist(user_id):
             await makeuser(message)
             return
-        await message.reply("\⛔ profile not implemented")
+        return await profile(message)
 
 client.run(bot_token.token)
