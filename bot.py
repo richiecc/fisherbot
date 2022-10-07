@@ -96,9 +96,6 @@ async def on_message(message:discord.Message):
 
     # user profile to show off
     if message.content.lower() == ("profile"):
-        if not dbf.doesUserExist(user_id):
-            await makeuser(message)
-            return
         return await profile(message)
 
 client.run(bot_token.token)
