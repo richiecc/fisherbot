@@ -1,27 +1,24 @@
-# This is a school project. 
 # FISHERBOT
-
-If you want to use this bot, head over to this [Discord server I made for it](https://discord.gg/bmESktfuQT). I think you can join with a guest account in your browser (no account creation required) so give it a shot. I'll try to leave the bot running for as long as I can.
-
-Below are for understanding how the python scripts work. You're probably more interested in project deliverables. `PROPOSAL.md` for that.
-<br>
-<br>
-Oh, also, `REPORT.md` since I need a grade for that.
+A weird school project 
 
 ## Requirements
 ### Generation of SQLite3 `.db` file and `.sql` scripts 
 * [Latest python](https://www.python.org/downloads/)
-* [sqlite for your OS](https://sqlite.org/index.html)
-* [sqlite3 for python](https://docs.python.org/3/library/sqlite3.html)
+* (Recommended) [sqlite for your OS](https://sqlite.org/index.html)
 
 ### Starting your own Discord bot with the bot script
-* [nextcord for python](https://pypi.org/project/nextcord/)
+* [discord.py for python](https://pypi.org/project/discord.py/)
 * General Discord bot knowledge
   * Create bot user
   * Get bot user token
   * Add bot user to server
+  * Add message content intent
+  * etc.
+* Create `bot_token.py` with the following content:
 
-## Using the bot in a server
+      token = "YOUR_TOKEN_HERE"
+
+## Bot Commands aka HELP
  * `f` to fish
  * `inv` to access your inventory
  * `bal` or `balance` to view current gold balance
@@ -38,8 +35,21 @@ Oh, also, `REPORT.md` since I need a grade for that.
  * `buy rod <rod name>` to buy the rod (use name given by `rods`) 
  * `area` to see your current area
    * `area <num>` to set your area
+ * `profile` to show off your profile
 
-## borked. working on it later.
+## Understanding `dbf.py`
+`dbf.py` contains all of the database interation functions used in `bot.py`. You can write your own program using these functions and basically piggyback on this database if you'd like. Keep in mind nothing is completely finished on the front-end side. <br> Basically: 
+* Read the SQL statements in db.execute() function calls
+1. Look at the database diagram
+2. ??????
+3. Don't understand because it's outdated
+
+## `bot.py`
+Run this to run the bot. It's as simple as that. I haven't properly formatted this file for a true discord bot developing experience, but it's functional. Realistically I should be using actual bot commands instead of looking for a certain string for every message a user sends. Oh well.
+
+## TODO
+ * SQL script generator
+ * fix terrible string replace
 
 <del>
 
@@ -65,23 +75,3 @@ Look for the section *configurables* near the top of the script
  * set **False** to avoid *USER DATA CONTAINING TABLES* in the script
 
 </del>
-
-## Understanding `dbf.py`
-`dbf.py` contains all of the database interation functions used in `bot.py`. You can write your own program using these functions and basically piggyback on this database if you'd like. Keep in mind nothing is completely finished on the front-end side. <br> Basically: 
-* Read the SQL statements in db.execute() function calls
-* Look at the database diagram
-* ??????
-* Profit
-
-## `bot.py`
-Run this to run the bot. It's as simple as that. I haven't properly formatted this file for a true discord bot developing experience, but it's functional. Realistically I should be using actual bot commands instead of looking for a certain string for every message a user sends. Oh well.
-
-## TODO
- * Profile
-   * Profile picture
-   * Total XP
-   * Level
-   * Number of fish caught
-   * Gold
-   * Rarest fish in basket
-   * Rods/Areas Unlocked
