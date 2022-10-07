@@ -21,15 +21,15 @@ from discord.ext import commands
 
 import bot_token
 # database functions
-import dbf
+import util.dbf as dbf
 # bot commands
 from commands.area import *
 from commands.buy import *
 from commands.f import *
-from commands.getEmoji import *
+from util.getEmoji import *
 from commands.help import *
 from commands.inv import *
-from commands.makeuser import *
+from util.makeuser import *
 from commands.profile import *
 from commands.rods import *
 from commands.sell import *

@@ -12,12 +12,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import os
 
-import dbf
+import util.dbf as dbf
 import discord
 
-from commands.getEmoji import *
+from util.getEmoji import *
 # from getEmoji import gold_emoji
-from commands.makeuser import *
+from util.makeuser import *
 
 cwd = os.getcwd()
 
