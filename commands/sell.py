@@ -10,11 +10,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
 import dbf
-import nextcord
-from commands.makeuser import *
+import discord
+
 from commands.getEmoji import *
+from commands.makeuser import *
 
 
 async def sell(message, user_id):
@@ -22,8 +22,8 @@ async def sell(message, user_id):
         return await makeuser(message)
     # how to
     if message.content == ("sell"):
-        sell_help_embed = nextcord.Embed(title="Selling Items")
-        sell_help_embed.color = nextcord.Color.blurple()
+        sell_help_embed = discord.Embed(title="Selling Items")
+        sell_help_embed.color = discord.Color.blurple()
         sell_help_embed.add_field(
             name="sell all", value="sells all fish and junk", inline=False)
         sell_help_embed.add_field(

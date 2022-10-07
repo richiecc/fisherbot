@@ -10,20 +10,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
 import dbf
-import nextcord
-from commands.makeuser import *
+import discord
+
 from commands.getEmoji import *
+from commands.makeuser import *
 
 
 async def rods(message, user_id):
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     rods = dbf.getRods()
-    rods_embed = nextcord.Embed()
-    rods_embed = nextcord.Embed(title="Selling Items")
-    rods_embed.color = nextcord.Colour.from_rgb(139, 69, 19)
+    rods_embed = discord.Embed()
+    rods_embed = discord.Embed(title="Selling Items")
+    rods_embed.color = discord.Colour.from_rgb(139, 69, 19)
 
     print(rods)
     for rod in rods:
@@ -32,6 +32,7 @@ async def rods(message, user_id):
             continue
         rarity = rod[1]
         value = rod[2]
+        # TODO: REGEX
         emoji_name = str(item_name).replace(" ", "").replace(
             "-", "").replace("_", "").replace("(", "").replace(")", "")
         emojistr = await getEmoji(emoji_name)

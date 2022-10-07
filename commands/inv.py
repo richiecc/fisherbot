@@ -10,13 +10,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+import os
 
-import nextcord
 import dbf
+import discord
+
 from commands.getEmoji import *
 # from getEmoji import gold_emoji
 from commands.makeuser import *
-import os
+
 cwd = os.getcwd()
 
 
@@ -24,10 +26,10 @@ async def inv(message, user_id):
     if not dbf.doesUserExist(user_id):
         await makeuser(message)
         return
-    inv_embed = nextcord.Embed(title="Inventory")
+    inv_embed = discord.Embed(title="Inventory")
 
     inv_filepath = cwd + "/images/icons/Inventory.png"
-    inv_file = nextcord.File(inv_filepath, filename="Inventory.png")
+    inv_file = discord.File(inv_filepath, filename="Inventory.png")
     inv_embed.set_thumbnail(url='attachment://Inventory.png')
 
     inventory = dbf.getInventory(user_id)

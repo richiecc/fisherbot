@@ -10,11 +10,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+import os
 
 import dbf
-import nextcord
+import discord
+
 from commands.makeuser import *
-import os
+
 cwd = os.getcwd()
 debug = True
 
@@ -54,8 +56,8 @@ async def f(message, user_id):
             filepath = cwd + "/images/catchable/" + filename
             if debug:
                 print(filepath)
-            catchable_file = nextcord.File(filepath, filename=filename)
-            catchable_embed = nextcord.Embed(title="Caught!", description=str(
+            catchable_file = discord.File(filepath, filename=filename)
+            catchable_embed = discord.Embed(title="Caught!", description=str(
                 message.author.name) + ", you caught **" + catchable_name.replace("_", " ") + "**!")
             catchable_embed.set_thumbnail(url='attachment://' + filename)
             await message.reply(embed=catchable_embed, file=catchable_file)
