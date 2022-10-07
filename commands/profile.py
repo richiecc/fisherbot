@@ -45,7 +45,7 @@ async def profile(message:discord.Message):
         if item_amount == 0:
             continue
         # ??????? TODO: FIX THIS LOL
-        rod_emoji = await getEmoji(str(dbf.getItemNameById(item[1])).replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", ""))
+        rod_emoji = await getEmoji(str(dbf.getItemNameById(item[1]).replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", "")))
         rod_emoji_list.append(rod_emoji)
     profile_embed.add_field(name="🎣 Rods Unlocked", value=" ".join(rod_emoji_list), inline=True)
     
@@ -59,10 +59,9 @@ async def profile(message:discord.Message):
         profile_embed.add_field(name="Rarest Fish Caught", value="No fish!", inline=True)
     else:
         rarest_fish_name = dbf.getCatchableNameById(rarest_fish_id)
-        print(rarest_fish_name)
         # oh the fucking misery
         # TODO: REGEX PLEASE GOD SAVE THIS LINE
-        rarest_fish_emoji = await getEmoji(str(rarest_fish_name).replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", ""))
+        rarest_fish_emoji = await getEmoji(str(rarest_fish_name.replace(" ", "").replace("-", "").replace("_", "").replace("(", "").replace(")", "")))
         rarest_fish_rarity = dbf.getCatchableRarityById(rarest_fish_id)
         profile_embed.add_field(name="Rarest Fish Caught", value=f"{rarest_fish_emoji} {rarest_fish_name} ({rarest_fish_rarity})", inline=True)
 
