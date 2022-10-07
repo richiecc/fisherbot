@@ -108,7 +108,10 @@ def getItemIdByName(item_name):
     result = db.execute(
         "select item_id from Items where item_name = ?;", (str(item_name),))
     result = result.fetchall()
-    return result[0][0]
+    if result == []:
+        return None
+    else:
+        return result[0][0]
 
 
 def getItemNameById(item_id):
