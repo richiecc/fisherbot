@@ -15,34 +15,33 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import os
-import nextcord
-from nextcord.ext import commands
-from nextcord.errors import Forbidden
-# bot commands
-from commands.help import *
-from commands.makeuser import *
-from commands.getEmoji import *
-from commands.f import *
-from commands.xp import *
-from commands.inv import *
-from commands.shop import *
-from commands.sell import *
-from commands.area import *
-from commands.rods import *
-from commands.buy import *
+
+import discord
+from discord.errors import Forbidden
+from discord.ext import commands
+
+import bot_token
 # database functions
 import dbf
+# bot commands
+from commands.area import *
+from commands.buy import *
+from commands.f import *
+from commands.getEmoji import *
+from commands.help import *
+from commands.inv import *
+from commands.makeuser import *
+from commands.rods import *
+from commands.sell import *
+from commands.shop import *
+from commands.xp import *
 
-# TOKEN OPTIONS
-# pip install python-dotenv # client.run(os.getenv('token'))
-# OR
-# create bot_token.py & type in: token = ""
-import bot_token
-
+intents = discord.Intents.default()
+intents.message_content = True
 debug = True
 cwd = os.getcwd()
 # yes i know i dont use this wow incredible!!!!!!!!
-client = commands.Bot(command_prefix='$')
+client = commands.Bot(command_prefix='$', intents=intents)
 
 
 @client.event
@@ -103,4 +102,4 @@ async def on_message(message):
             return
         await message.reply("\⛔ profile not implemented")
 
-client.run(bot_token.token)  # this is much better
+client.run(bot_token.token)
