@@ -45,12 +45,20 @@ async def f(message:discord.Message):
                 print("tried to give negative amount of catchable", catchable_id)
         elif return_code == 0:
             if dbf.getCatchableAttributeById(catchable_id) == ("fish"):
-                dbf.incrementFishCaught(user_id)
+                area_id = dbf.getCurrentArea(user_id)
+                dbf.incrementFishCaught(user_id, area_id)
+                if dbf.isNewRareFish(user_id, catchable_id):
+                    if debug:
+                        print("new rarest fish: {}".format(catchable_id))
+                    dbf.setRareFish(user_id, catchable_id)
+                else:
+                    if debug:
+                        print("not new rare fish")
             if debug:
                 print("user has been given catchable", catchable_id)
             dbf.giveXpFromCatchableId(user_id, catchable_id)
             catchable_name = dbf.getCatchableNameById(
-                catchable_id)[0].replace(" ", "_")
+                catchable_id).replace(" ", "_")
             ext = ".png"
             filename = catchable_name + ext
             print(filename)

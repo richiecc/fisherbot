@@ -42,7 +42,7 @@ async def inv(message:discord.Message):
         value = entry[2]
         if value == 0:
             continue
-        emoji_name = str(name[0]).replace(" ", "").replace(
+        emoji_name = str(name).replace(" ", "").replace(
             "-", "").replace("_", "").replace("(", "").replace(")", "")
         emojistr = await getEmoji(emoji_name)
         inv_embed.add_field(name=emojistr, value=value, inline=True)
@@ -51,7 +51,7 @@ async def inv(message:discord.Message):
         value = entry[2]
         if value == 0:
             continue
-        emoji_name = str(name[0]).replace(" ", "").replace(
+        emoji_name = str(name).replace(" ", "").replace(
             "-", "").replace("_", "").replace("(", "").replace(")", "")
         emojistr = await getEmoji(emoji_name)
         inv_embed.add_field(name=emojistr, value=value, inline=True)

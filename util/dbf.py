@@ -13,6 +13,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import sqlite3
 from random import Random
 import os
+from types import NoneType
 
 '''
 functions created to make the bot script actually readable
@@ -83,10 +84,10 @@ def getJunk():
     return result
 
 
-def getAreas():
-    result = db.execute("select * from areas;")
+def getAreaIds():
+    result = db.execute("select area_id from areas;")
     result = result.fetchall()
-    return result
+    return result[0]
 
 
 def getInventory(user_id):
@@ -114,7 +115,7 @@ def getItemNameById(item_id):
     result = db.execute(
         "select item_name from Items where item_id = ?;", (str(item_id),))
     result = result.fetchall()
-    return result[0]
+    return result[0][0]
 
 
 def getItemAmount(user_id, item_id):
@@ -138,7 +139,7 @@ def getCatchableNameById(catchable_id):
     result = db.execute(
         "select catchable_name from Catchable where catchable_id = ?;", (str(catchable_id),))
     result = result.fetchall()
-    return result[0]
+    return result[0][0]
 
 
 def getXpFromUserId(user_id):
@@ -197,6 +198,16 @@ def getCatchableIdByName(catchable_name):
     else:
         return result[0][0]
 
+
+def getNumFishCaught(user_id):
+    result = db.execute("select sum(fish_caught) from FishPerArea where user_id = ?;", (str(user_id),))
+    result = result.fetchall()
+    if result == [] or None:
+        return 0
+    else:
+        return result[0][0]
+
+
 # ----------------------------------------------------
 # ----------------- boolean queries ------------------
 # ----------------------------------------------------
@@ -236,6 +247,42 @@ def doesUserHaveCatchable(user_id, catchable_id):
         return True
 
 
+def isNewRareFish(user_id, catchable_id):
+    current_rarest_fish_id = getRarestFishId(user_id)
+    print(f"\n\n{current_rarest_fish_id}")
+    if current_rarest_fish_id == None or -1:
+        return True
+    if catchable_id == current_rarest_fish_id:
+        return False
+    potential_rarest_fish_rarity = getCatchableRarityById(catchable_id)
+    if potential_rarest_fish_rarity == "Junk":
+        return False
+    
+    raritymap = {
+        "Junk": 0,
+        "Common": 1,
+        "Uncommon": 2,
+        "Rare": 3,
+        "Legendary": 4,
+        "Unique": 5
+    }
+    current_rarest_fish_rarity = getCatchableRarityById(current_rarest_fish_id)
+    current_rarity_map = raritymap[current_rarest_fish_rarity]
+    potential_rarity_map = raritymap[potential_rarest_fish_rarity]
+    if current_rarity_map > potential_rarity_map:
+        return False
+    elif current_rarity_map < potential_rarity_map:
+        return True
+    elif current_rarity_map == potential_rarity_map:
+        current_value = getCatchableValueById(current_rarest_fish_id)
+        potential_value = getCatchableValueById(catchable_id)
+        if current_value < potential_value:
+            return True
+        else:
+            return False
+    return False
+
+
 # ----------------------------------------------------
 # ---------------------- forms -----------------------
 # ----------------------------------------------------
@@ -249,22 +296,25 @@ def giveGold(user_id, amount):
 
 
 def insertNewUser(user_id):
-    '''inserts user into database by `insert into Users values(user_id, 0, 0, 0, 0);`'''
+    '''inserts user into database by `insert into Users values(user_id, 0, 0, 0, -1);`'''
     if debug:
         print("trying to insert user", end=": ")
     try:
         db.execute("insert into Users values (?, ?, ?, ?, ?);",
-                   (str(user_id), 0, 0, 0, 0))
+                   (str(user_id), 0, 0, 0, -1))
         if debug:
             print("inserted", user_id, "into database")
             print("giving Basic_Rod and some gold", end=": ")
         db.execute("insert into inventory values(?, ?, ?);",
                    (str(user_id), 0, 1))
+        for area in getAreaIds():
+            db.execute("insert into FishPerArea values(?, ?, 0);",(user_id, area))
         if debug:
             print("done! there u go bro")
         db.commit()
     except Exception:
         print("FAILED AT insertNewUser")
+        return None
 
 
 def giveUserItem(user_id, item_id, amount):
@@ -317,10 +367,10 @@ def changeArea(user_id, area_id):
         print("changed area to {0} for {1}".format(str(area_id), str(user_id)))
 
 
-def incrementFishCaught(user_id):
+def incrementFishCaught(user_id, area_id):
     db.execute(
-        "update Users set fish_caught = fish_caught + 1 where user_id = ?", (str(user_id),))
-    print("incremented fish caught for user {0}".format(user_id))
+        "update FishPerArea set fish_caught = fish_caught + 1 where user_id = ? and area_id = ?", (str(user_id),str(area_id)))
+    print("incremented fish caught for user {0} in area {1}".format(user_id, area_id))
     db.commit()
 
 # NEW FUNCTION
@@ -347,6 +397,42 @@ def getRodNamesAndValues():
         return None
     else:
         return result
+
+
+def getRarestFishId(user_id):
+    result = db.execute(
+        "select rarest_fish_id from Users where user_id = ?;",(str(user_id),))
+    result = result.fetchall()
+    if result == []:
+        return None
+    else:
+        return result[0][0]
+
+
+def getCatchableRarityById(catchable_id):
+    result = db.execute("select rarity from catchable where catchable_id = ?;", (str(catchable_id),))
+    result = result.fetchall()
+    if result == []:
+        return None
+    return result[0][0]
+
+
+
+
+
+
+def setRareFish(user_id, catchable_id):
+    db.execute("update users set rarest_fish_id = ? where user_id = ?", (str(catchable_id), str(user_id)))
+    db.commit()
+
+
+def getFavoriteArea(user_id):
+    result = db.execute("select area_id from FishPerArea where user_id = ? group by area_id order by max(fish_caught);", (str(user_id),))
+    result = result.fetchall()
+    if result == []:
+        return None
+    else:
+        return getAreaName(result[0][0])
 
 
 # ----------------------------------------------------
