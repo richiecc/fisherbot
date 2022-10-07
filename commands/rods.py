@@ -18,7 +18,7 @@ from util.makeuser import *
 
 
 async def rods(message:discord.Message):
-    user_id = message.author.user_id
+    user_id = message.author.id
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     rods = dbf.getRods()
