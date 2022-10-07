@@ -3,3 +3,5 @@ commands/__pycache__
 .vscode
 images/BACKUP
 *.db
+venv/
+bot_token.py
