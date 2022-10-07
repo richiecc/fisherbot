@@ -36,6 +36,7 @@ A weird school project
  * `area` to see your current area
    * `area <num>` to set your area
  * `profile` to show off your profile
+   * `profile @user` to see someone else's profile
 
 ## Understanding `dbf.py`
 `dbf.py` contains all of the database interation functions used in `bot.py`. You can write your own program using these functions and basically piggyback on this database if you'd like. Keep in mind nothing is completely finished on the front-end side. <br> Basically: 
