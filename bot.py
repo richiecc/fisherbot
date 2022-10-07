@@ -50,7 +50,7 @@ async def on_ready():
 
 
 @client.event
-async def on_message(message):
+async def on_message(message:discord.Message):
     # bots cant use this bot
     if message.author.bot:
         return
@@ -61,35 +61,35 @@ async def on_message(message):
 
     # fish for fish
     if message.content == ("f"):
-        return await f(message, user_id)
+        return await f(message)
 
     # total xp TODO: MAKE EMBED
     if message.content == ("xp"):
-        return await xp(message, user_id)
+        return await xp(message)
 
     # inventory embed
     if message.content == ("inv"):
-        return await inv(message, user_id)
+        return await inv(message)
 
     # shop help and embed
     if message.content.startswith("shop"):
-        return await shop(message, user_id)
+        return await shop(message)
 
     # sell items from inventory
     if message.content.startswith("sell"):
-        return await sell(message, user_id)
+        return await sell(message)
 
     # area help and change
     if message.content.startswith("area"):
-        return await area(message, user_id)
+        return await area(message)
 
     # list rods
     if message.content == ("rods"):
-        return await rods(message, user_id)
+        return await rods(message)
 
     # list and purchase items
     if message.content.startswith("buy"):
-        return await buy(message, user_id)
+        return await buy(message)
 
     if message.content == "bal" or message.content == "balance":
         bal = dbf.getGold(message.author.id)

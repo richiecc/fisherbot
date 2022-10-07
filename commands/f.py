@@ -21,7 +21,8 @@ cwd = os.getcwd()
 debug = True
 
 
-async def f(message, user_id):
+async def f(message:discord.Message):
+    user_id = message.author.id
     # add user to db if they dont exist. give them 100 gold as well.
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)

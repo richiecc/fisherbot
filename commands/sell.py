@@ -17,7 +17,8 @@ from commands.getEmoji import *
 from commands.makeuser import *
 
 
-async def sell(message, user_id):
+async def sell(message:discord.Message):
+    user_id = message.author.id
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     # how to

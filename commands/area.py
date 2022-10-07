@@ -16,7 +16,8 @@ import discord
 from commands.makeuser import *
 
 
-async def area(message, user_id):
+async def area(message:discord.Message):
+    user_id = message.author.id
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     current_area = int(dbf.getCurrentArea(user_id))

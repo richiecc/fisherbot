@@ -15,7 +15,8 @@ import dbf
 from commands.makeuser import *
 
 
-async def xp(message, user_id):
+async def xp(message:discord.Message):
+    user_id = message.author.id
     # add user to db if they dont exist. give them 100 gold as well.
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)

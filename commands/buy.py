@@ -16,7 +16,8 @@ from commands.getEmoji import *
 from commands.makeuser import *
 
 
-async def buy(message, user_id):
+async def buy(message:discord.Message):
+    user_id = message.author.id
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     if message.content.startswith("buy rod"):

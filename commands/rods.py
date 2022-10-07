@@ -17,7 +17,8 @@ from commands.getEmoji import *
 from commands.makeuser import *
 
 
-async def rods(message, user_id):
+async def rods(message:discord.Message):
+    user_id = message.author.user_id
     if not dbf.doesUserExist(user_id):
         return await makeuser(message)
     rods = dbf.getRods()
