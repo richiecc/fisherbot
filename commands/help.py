@@ -13,5 +13,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 async def help(message):
-    await message.reply("solid")
     return await message.reply("https://github.com/21zz/fisherbot")
