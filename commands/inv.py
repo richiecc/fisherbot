@@ -22,7 +22,8 @@ from util.makeuser import *
 cwd = os.getcwd()
 
 
-async def inv(message, user_id):
+async def inv(message:discord.Message):
+    user_id = message.author.id
     if not dbf.doesUserExist(user_id):
         await makeuser(message)
         return
