@@ -72,12 +72,12 @@ emojis_list = [
     ("BasicRod",                916332586706563152)
 ]
 gold_emoji = "<:Coins:917234940230385724>"
+
 # async function to turn an emoji from the list into a properly formatted
 # discord emoji
-
-
 async def getEmoji(emoji_name):
     for emoji in emojis_list:
         if(emoji[0] == emoji_name):
             proper = "<:{0}:{1}>".format(str(emoji[0]), str(emoji[1]))
             return proper
+            
