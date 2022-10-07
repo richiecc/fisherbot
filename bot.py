@@ -95,7 +95,7 @@ async def on_message(message:discord.Message):
         await message.reply("{0}, your balance is {1} {2}".format(message.author.name, gold_emoji, bal))
 
     # user profile to show off
-    if message.content.lower() == ("profile"):
+    if message.content.lower().startswith("profile"):
         return await profile(message)
 
 client.run(bot_token.token)
