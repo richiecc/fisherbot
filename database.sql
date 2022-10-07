@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Users (
     xp INT NOT NULL,
     gold INT NOT NULL,
     area_id INT NOT NULL,
-    fish_caught INT NOT NULL,
+    rarest_fish_id INT NOT NULL,
     CONSTRAINT FK_Users_Area FOREIGN KEY (area_id)
     REFERENCES Areas(area_id));
 
@@ -70,6 +70,16 @@ CREATE TABLE IF NOT EXISTS Basket (
     REFERENCES Users(user_id),
     CONSTRAINT FK_Basket_Catchable FOREIGN KEY (catchable_id) 
     REFERENCES Catchable(catchable_id));
+
+-- FISH PER AREA
+CREATE TABLE IF NOT EXISTS FishPerArea (
+    user_id INT NOT NULL,
+    area_id INT NOT NULL,
+    fish_caught INT NOT NULL,
+    CONSTRAINT FK_FishPerArea_Users FOREIGN KEY (user_id)
+    REFERENCES Users(user_id),
+    CONSTRAINT FK_FishPerArea_Areas FOREIGN KEY (area_id)
+    REFERENCES Areas(area_id));
 
 -- CREATE SHOP
 CREATE TABLE IF NOT EXISTS Shop (
