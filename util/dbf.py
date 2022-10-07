@@ -249,7 +249,7 @@ def doesUserHaveCatchable(user_id, catchable_id):
 
 def isNewRareFish(user_id, catchable_id):
     current_rarest_fish_id = getRarestFishId(user_id)
-    print(f"\n\n{current_rarest_fish_id}")
+    print(f"rarity: {current_rarest_fish_id}")
     if current_rarest_fish_id == None or -1:
         return True
     if catchable_id == current_rarest_fish_id:
