@@ -39,4 +39,4 @@ async def rods(message:discord.Message):
         emojistr = await getEmoji(emoji_name)
         rods_embed.add_field(name="{0} {1}".format(
             item_name, emojistr), value="{0} {1}".format(value, gold_emoji), inline=False)
-    await message.channel.send(embed=rods_embed)
+    await message.reply(embed=rods_embed)
