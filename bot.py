@@ -76,49 +76,53 @@ async def on_message(message:discord.Message):
     # bots cant use this bot
     if message.author.bot:
         return
+    # unused user_id :)
     user_id = message.author.id
 
-    if message.content == (f"{prefix}help"):
+    # content to lowercase
+    content = message.content.lower()
+
+    if content == (f"{prefix}help"):
         return await help(message)
 
     # fish for fish
-    if message.content == (f"{prefix}f"):
+    if content == (f"{prefix}f"):
         return await f(message)
 
     # total xp TODO: MAKE EMBED
-    if message.content == (f"{prefix}xp"):
+    if content == (f"{prefix}xp"):
         return await xp(message)
 
     # inventory embed
-    if message.content == (f"{prefix}inv"):
+    if content == (f"{prefix}inv"):
         return await inv(message)
 
     # shop help and embed
-    if message.content.startswith(f"{prefix}shop"):
+    if content.startswith(f"{prefix}shop"):
         return await shop(message)
 
     # sell items from inventory
-    if message.content.startswith(f"{prefix}sell"):
+    if content.startswith(f"{prefix}sell"):
         return await sell(message)
 
     # area help and change
-    if message.content.startswith(f"{prefix}area"):
+    if content.startswith(f"{prefix}area"):
         return await area(message)
 
     # list rods
-    if message.content == (f"{prefix}rods"):
+    if content == (f"{prefix}rods"):
         return await rods(message)
 
     # list and purchase items
-    if message.content.startswith(f"{prefix}buy"):
+    if content.startswith(f"{prefix}buy"):
         return await buy(message)
 
-    if message.content == f"{prefix}bal" or message.content == f"{prefix}balance":
+    if content == f"{prefix}bal" or content == f"{prefix}balance":
         bal = dbf.getGold(message.author.id)
         await message.reply("{0}, your balance is {1} {2}".format(message.author.name, gold_emoji, bal))
 
     # user profile to show off
-    if message.content.lower().startswith(f"{prefix}profile"):
+    if content.startswith(f"{prefix}profile"):
         return await profile(message)
 
 client.run(bot_token.token)
